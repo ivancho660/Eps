@@ -56,19 +56,7 @@ export default function Configuracion() {
           />
         </View>
 
-        <TouchableOpacity
-          style={[
-            styles.option,
-            {
-              backgroundColor: colors.card,
-              borderColor: colors.logout,
-              borderWidth: 1,
-            },
-          ]}
-        >
-          <AntDesign name="logout" size={24} color={colors.logout} />
-          <Text style={[styles.optionText, { color: colors.logout }]}>Cerrar sesión</Text>
-        </TouchableOpacity>
+        
       </View>
     </ScrollView>
   );
