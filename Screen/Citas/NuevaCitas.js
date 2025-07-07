@@ -1,10 +1,16 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, StyleSheet, Button } from "react-native";
+import { View, Text, TextInput, StyleSheet, Button,TouchableOpacity, Alert, ActivityIndicator } from "react-native";
 
-export default function CrearCita({ navigation }) {
-    const [fecha, setFecha] = useState("");
-    const [hora, setHora] = useState("");
-    const [especialidad, setEspecialidad] = useState("");
+
+export default function CrearCita() {
+    const navigation = useNavigation();
+    const route = useRoute();
+
+
+    const citas = route.params?.citas;
+    const [fecha, setFecha] = useState(citas?.fecha||"");
+    const [hora, setHora] = useState(citas?.hora ||"");
+    const [especialidad, setEspecialidad] = useState(citas?.especialidad ||"");
     const [doctor, setDoctor] = useState("");
 
     return (

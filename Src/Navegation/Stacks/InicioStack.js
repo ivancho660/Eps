@@ -5,7 +5,7 @@ import ConsultoriosStack from './ConsultoriosStack';
 import EspecialidadesStack from './EspecialidadesStack';
 import MedicosStack from './MedicosStack';
 import PacientesStack from './PacientesStack';
-import {Entypo,AntDesign,Feather} from '@expo/vector-icons';
+import { Entypo, AntDesign, Feather } from '@expo/vector-icons';
 
 
 const Stack = createNativeStackNavigator();
@@ -14,25 +14,32 @@ export default function InicioStack() {
 
     return (
         <Stack.Navigator initialRouteName='Inicio' ScreenOptions={{
-            headerShown: false,  }}>
+            headerShown: false,
+        }}>
             <Stack.Screen
                 name="Inicio"
                 component={Inicio}
+                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name="citasStack" component={CitasStack}
+                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name="consultoriosStack" component={ConsultoriosStack}
+                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name="especialidadesStack" component={EspecialidadesStack}
+                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name="medicosStack" component={MedicosStack}
+                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name="pacientesStack" component={PacientesStack}
+                options={{ headerShown: false }}
             />
 
         </Stack.Navigator>

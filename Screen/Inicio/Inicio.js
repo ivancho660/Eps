@@ -22,6 +22,7 @@ export default function Inicio({ navigation }) {
                     title="Consultorios"
                     iconName="local-hospital"
                     onPress={() => navigation.navigate("consultoriosStack")}
+                    
                 />
                 <Cuadro
                     title="Especialidades"
