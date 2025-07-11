@@ -1,4 +1,4 @@
-import {  View,  Text,  TouchableOpacity,  StyleSheet,  ScrollView,  Alert,  ActivityIndicator,  FlatList,} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Alert, ActivityIndicator, FlatList } from "react-native";
 import React, { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import MedicosCard from "../../Components/MedicosCard";
@@ -17,13 +17,10 @@ export default function ListarMedicos() {
       if (result.success) {
         setMedico(result.data);
       } else {
-        Alert.alert(
-          "Error",
-          result.message || "No se pudieron obtener los medicos"
-        );
+        Alert.alert("Error", result.message || "No se pudieron obtener los médicos");
       }
     } catch (error) {
-      Alert.alert("Error", "No se pudieron cargar los medicos");
+      Alert.alert("Error", "No se pudieron cargar los médicos");
     } finally {
       setLoading(false);
     }
@@ -41,12 +38,13 @@ export default function ListarMedicos() {
   const handleCrear = () => {
     navigation.navigate("NuevoMedico");
   };
+
   const handleView = (medico) => {
     navigation.navigate("DetalleMedico", { medico });
   };
+
   const handleEliminar = (id) => {
-    // Implement delete functionality
-    Alert.alert("Eliminar Medico", "¿Estas seguro de eliminar este Medico?", [
+    Alert.alert("Eliminar Médico", "¿Estás seguro de eliminar este médico?", [
       { text: "Cancelar", style: "cancel" },
       {
         text: "Eliminar",
@@ -55,14 +53,12 @@ export default function ListarMedicos() {
           try {
             const result = await eliminarMedicos(id);
             if (result.success) {
-              // setPacientes(pacientes.filter((p) => p.id !== id));
-              // otra funcion para listar
               handleMedicos();
             } else {
-              Alert.alert("Error", result.message || "No se pudo eliminar el Medico");
+              Alert.alert("Error", result.message || "No se pudo eliminar el médico");
             }
           } catch (error) {
-            Alert.alert("Error", "No se pudo eliminar el Medico");
+            Alert.alert("Error", "No se pudo eliminar el médico");
           }
         },
       },
@@ -76,9 +72,10 @@ export default function ListarMedicos() {
       </View>
     );
   }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Listado de Medicos</Text>
+      <Text style={styles.title}>Listado de Médicos</Text>
 
       {medico.length > 0 ? (
         <FlatList
@@ -87,7 +84,7 @@ export default function ListarMedicos() {
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <MedicosCard
-               medico={item}
+              medico={item}
               onDelete={() => handleEliminar(item.id)}
               onEdit={() => handleEditar(item)}
               onView={() => handleView(item)}
@@ -96,11 +93,13 @@ export default function ListarMedicos() {
         />
       ) : (
         <View style={styles.emptyContainer}>
-          <Text>No hay pacientes registrados</Text>
+          <Text>No hay médicos registrados</Text>
         </View>
       )}
-      <TouchableOpacity style={styles.addButton} onPress={handleCrear}>
-        <Ionicons name="add" size={30} color="white" />
+
+      <TouchableOpacity style={styles.nuevoBoton} onPress={handleCrear}>
+        <Ionicons name="medkit" size={20} color="white" style={{ marginRight: 8 }} />
+        <Text style={styles.botonTexto}>Nuevo Médico</Text>
       </TouchableOpacity>
     </View>
   );
@@ -122,20 +121,29 @@ const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
   },
-  addButton: {
-    position: "absolute",
-    right: 20,
-    bottom: 20,
+  emptyContainer: {
+    alignItems: "center",
+    marginTop: 50,
+  },
+  nuevoBoton: {
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: "#1976D2",
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    padding: 12,
+    borderRadius: 10,
+    justifyContent: "center",
+    marginTop: 20,
+    marginBottom: 10,
+    elevation: 3,
+  },
+  botonTexto: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  centered: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 5,
   },
 });

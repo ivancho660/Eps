@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Button, FlatList, StyleSheet, Alert, ActivityIndicator, TouchableOpacity } from "react-native";
-import ConsultoriosCard from "../../Components/ConsultoriosCard";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  Alert,
+  ActivityIndicator,
+  TouchableOpacity,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { listarConsultorios } from "../../Src/Servicios/ConsultoriosService";
-import { eliminarConsultorios } from "../../Src/Servicios/ConsultoriosService";
-import { Ionicons } from '@expo/vector-icons';
-
-
-
+import ConsultoriosCard from "../../Components/ConsultoriosCard";
+import { listarConsultorios, eliminarConsultorios } from "../../Src/Servicios/ConsultoriosService";
 
 export default function ListarConsultorio() {
-const [consultorios, setConsultorios] = useState([]);
-const [loading, setLoading] = useState(true);
-const navigation = useNavigation();
+  const [consultorios, setConsultorios] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const navigation = useNavigation();
 
   const handleConsultorios = async () => {
     setLoading(true);
@@ -21,184 +25,143 @@ const navigation = useNavigation();
       if (result.success) {
         setConsultorios(result.data);
       } else {
-        Alert.alert("Error", result.message || "no se pudieron cargar los consultorios");
+        Alert.alert("Error", result.message || "No se pudieron cargar los consultorios");
       }
     } catch (error) {
-      Alert.alert("Error","no se pudieron cargar los consultorios");
-    } finally{
+      Alert.alert("Error", "No se pudieron cargar los consultorios");
+    } finally {
       setLoading(false);
     }
   };
 
-     useEffect(()=>{
-    const unsubscribe = navigation.addListener('focus', handleConsultorios);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", handleConsultorios);
     return unsubscribe;
-   }, [navigation]);
+  }, [navigation]);
 
-
-     const handleEliminar = (id) => {
-    Alert.alert (
-      "Eliminar consultorio",
-      "¿estas seguro que deseas elimina el consultorio?",
+  const handleEliminar = (id) => {
+    Alert.alert(
+      "Eliminar Consultorio",
+      "¿Estás seguro de eliminar este consultorio?",
       [
-        {text: "cancelar", style: "cancel"},
+        { text: "Cancelar", style: "cancel" },
         {
           text: "Eliminar",
           style: "destructive",
-          onPress:async () => {
+          onPress: async () => {
             try {
               const result = await eliminarConsultorios(id);
-              if(result.success){
-                // setActividades(actividades.filter((a) => a.id !== id));
+              if (result.success) {
                 handleConsultorios();
-              }else{
-                Alert.alert("Error",result.message || "no se pudo elimina el Consultorio");
+              } else {
+                Alert.alert("Error", result.message || "No se pudo eliminar el consultorio");
               }
             } catch (error) {
-              Alert.alert("Error", "no se pudo elimianr el consultorio")
+              Alert.alert("Error", "No se pudo eliminar el consultorio");
             }
           },
-        }
+        },
       ]
-    )
-   }
+    );
+  };
 
-   const handleEditar = (consultorios) =>{
-    navigation.navigate("NuevoConsultorios",{ consultorios });
-   }
+  const handleEditar = (consultorio) => {
+    navigation.navigate("NuevoConsultorios", { consultorios: consultorio });
+  };
 
-      const handleCrear = () =>{
+  const handleCrear = () => {
     navigation.navigate("NuevoConsultorios");
-   }
+  };
 
-    if (loading){
-    <View>
-      <ActivityIndicator size="large" color="#1976D2"/>
-    </View>
-   }
-
+  if (loading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color="#1976D2" />
+      </View>
+    );
+  }
 
   return (
-   <View style={{ flex: 1}}>
+    <View style={styles.container}>
+      <Text style={styles.title}>Listado de Consultorios</Text>
 
       <FlatList
         data={consultorios}
         keyExtractor={(item) => item.id.toString()}
-      renderItem={({item}) =>(
+        renderItem={({ item }) => (
+          <ConsultoriosCard
+            consultorios={item}
+            onEdit={() => handleEditar(item)}
+            onDelete={() => handleEliminar(item.id)}
+          />
+        )}
+        ListEmptyComponent={<Text style={styles.emptyText}>No hay consultorios registrados.</Text>}
+        contentContainerStyle={consultorios.length === 0 && styles.centered}
+      />
 
-        <ConsultoriosCard
-        consultorios={item} //pasa el consultorio a la tarjeta
-        onEdit={() => handleEditar(item)}  //accion editar
-        onDelete={() => handleEliminar(item.id)} //accion eliminar 
-        />
-      )}
-      ListEmptyComponent={<Text>No hay consultorios Registrados.</Text>}
-        />
-  
-            <TouchableOpacity style={styles.boton} onPress={handleCrear} disabled={loading}>
-                <View style={styles.botonContent}>
-                    <Ionicons name="add-circle-outline" size={20} color="#fff" style={styles.botonIcon} />
-
-                    <Text style={styles.textoBoton}>Nuevo paciente</Text>
-                </View>
-
-            </TouchableOpacity>
-
-      
+      <TouchableOpacity style={styles.boton} onPress={handleCrear}>
+        <View style={styles.botonContent}>
+          <Ionicons
+            name="add-circle-outline"
+            size={20}
+            color="#fff"
+            style={styles.botonIcon}
+          />
+          <Text style={styles.textoBoton}>Nuevo Consultorio</Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-    centered: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    card: {
-        backgroundColor: '#fff',
-        borderRadius: 8,
-        padding: 16,
-        marginVertical: 8,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 2,
-    },
-    info: {
-        flex: 1,
-    },
-    nombre: {
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-    detalle: {
-        fontSize: 14,
-        color: '#555',
-    },
-    actions: {
-        flexDirection: 'row',
-    },
-    iconBtn: {
-        marginLeft: 10,
-    },
-    button: {
-        backgroundColor: '#1976D2',
-        padding: 10,
-        borderRadius: 5,
-        marginTop: 10,
-    },
-    buttonText: {
-        color: '#fff',
-        textAlign: 'center',
-        fontSize: 16,
-    },
-
-    botonCrear: {
-        backgroundColor: '#1976D2',
-        padding: 15,
-        borderRadius: 8,
-        position: 'absolute',
-        bottom: 20,
-        right: 20,
-        elevation: 5,
-    },
-    
-    boton: {
-        backgroundColor: "#1976D2",
-        padding: 15,
-        borderRadius: 8,
-        // Alineación del contenido dentro del botón para el icono y el texto
-        flexDirection: 'row', // Organiza el icono y el texto en fila
-        justifyContent: 'center', // Centra horizontalmente
-        alignItems: 'center',   // Centra verticalmente
-        width: "80%",
-        marginTop: 20,
-        // Agregando un poco de sombra para un efecto más bonito
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.27,
-        shadowRadius: 4.65,
-        elevation: 6,
-    },
-    botonContent: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    botonIcon: {
-        marginRight: 8, // Espacio entre el icono y el texto
-    },
-    textoBoton: {
-        color: "#fff",
-        fontSize: 16,
-        fontWeight: "bold",
-    },
-
+  container: {
+    flex: 1,
+    backgroundColor: "#F9F9F9",
+    padding: 10,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  emptyText: {
+    fontSize: 16,
+    color: "#777",
+  },
+  boton: {
+    backgroundColor: "#1976D2",
+    padding: 15,
+    borderRadius: 8,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "80%",
+    alignSelf: "center",
+    marginTop: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    elevation: 6,
+  },
+  botonContent: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  botonIcon: {
+    marginRight: 8,
+  },
+  textoBoton: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
 });

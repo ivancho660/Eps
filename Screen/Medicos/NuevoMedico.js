@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import {View,Text,  TextInput,  Button,  Alert,  StyleSheet,  TouchableOpacity,  ActivityIndicator,} from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Alert,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { listarEspecialidades } from "../../Src/Servicios/EspecialidadesService";
@@ -12,13 +20,12 @@ export default function NuevoMedico() {
 
   const [nombre, setNombre] = useState(medico?.nombre || "");
   const [documento, setDocumento] = useState(medico?.documento?.toString() || "");
-
-  const [idEspecialidad, setidEspecialidad] = useState(
-    medico?.idEspecialidad || ""
+  const [idEspecialidad, setIdEspecialidad] = useState(
+    medico?.idEspecialidad?.toString() || ""
   );
+
   const [loading, setLoading] = useState(false);
   const [especialidades, setEspecialidades] = useState([]);
-
 
   useEffect(() => {
     const cargarEspecialidades = async () => {
@@ -38,7 +45,7 @@ export default function NuevoMedico() {
   const esEdicion = !!medico;
 
   const handleGuardar = async () => {
-    if (!nombre || !documento || !idEspecialidad ) {
+    if (!nombre || !documento || !idEspecialidad) {
       Alert.alert("Error", "Por favor completa todos los campos");
       return;
     }
@@ -49,14 +56,14 @@ export default function NuevoMedico() {
       let result;
       if (esEdicion) {
         result = await editarMedicos(medico.id, {
-          nombre: nombre, // Quité parseFloat
-          documento: documento, // Quité parseFloat
+          nombre,
+          documento,
           idEspecialidad: parseInt(idEspecialidad),
         });
       } else {
         result = await crearMedicos({
-          nombre: nombre,
-          documento: documento,
+          nombre,
+          documento,
           idEspecialidad: parseInt(idEspecialidad),
         });
       }
@@ -69,7 +76,6 @@ export default function NuevoMedico() {
         navigation.goBack();
       } else {
         let errorMsg = "No se pudo guardar el doctor";
-
         if (typeof result.message === "object") {
           errorMsg = Object.entries(result.message)
             .map(([key, val]) => `${key}: ${val.join(", ")}`)
@@ -77,7 +83,6 @@ export default function NuevoMedico() {
         } else if (typeof result.message === "string") {
           errorMsg = result.message;
         }
-
         Alert.alert("Error", errorMsg);
       }
     } catch (error) {
@@ -95,16 +100,17 @@ export default function NuevoMedico() {
       <Text style={styles.title}>
         {esEdicion ? "Editar Doctor" : "Nuevo Doctor"}
       </Text>
+
       <Picker
         selectedValue={idEspecialidad}
-        onValueChange={(itemValue) => setidEspecialidad(itemValue)}
+        onValueChange={(itemValue) => setIdEspecialidad(itemValue)}
         style={styles.input}
       >
         <Picker.Item label="Seleccione una especialidad" value="" />
         {especialidades.map((especialidad) => (
           <Picker.Item
             key={especialidad.id}
-            label={`${especialidad.nombre}`}
+            label={especialidad.nombre}
             value={especialidad.id.toString()}
           />
         ))}
@@ -121,6 +127,7 @@ export default function NuevoMedico() {
         value={documento}
         onChangeText={setDocumento}
         style={styles.input}
+        keyboardType="numeric"
       />
 
       <TouchableOpacity

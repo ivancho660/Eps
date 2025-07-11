@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function PacientesCard({ especialidades, onEdit, onDelete }) {
+export default function EspecialidadesCard({ especialidades, onEdit, onDelete }) {
     return (
         <View style={styles.card}>
             <View style={styles.info}>

@@ -1,62 +1,106 @@
-import React from "react";
-import { View, Text, Button, FlatList, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Alert, ActivityIndicator, FlatList } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Ionicons } from "@expo/vector-icons";
+import CitasCard from "../../Components/CitasCard";
+import { useNavigation } from "@react-navigation/native";
+import { listarCitas, eliminarCitas } from "../../Src/Servicios/CitasService";
 
-const citas = [
-  {
-    id: '1',
-    paciente: 'Juan Pérez',
-    fecha: '2025-06-21',
-    hora: '09:00',
-    especialidad: 'Medicina General',
-    doctor: 'Dr. Gómez',
-  },
-  {
-    id: '2',
-    paciente: 'Ana Gómez',
-    fecha: '2025-06-22',
-    hora: '10:30',
-    especialidad: 'Pediatría',
-    doctor: 'Dra. Ramírez',
-  },
-  {
-    id: '3',
-    paciente: 'Luis Torres',
-    fecha: '2025-06-23',
-    hora: '14:15',
-    especialidad: 'Dermatología',
-    doctor: 'Dr. Castaño',
-  },
-];
+export default function ListarCitas() {
+  const [citas, setCitas] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const navigation = useNavigation();
 
-export default function ListarCitas({ navigation }) {
-  const renderItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.item}
-      onPress={() => navigation.navigate('DetalleCitas', { cita: item })}
-    >
-      <Text style={styles.nombre}>{item.paciente}</Text>
-      <Text style={styles.detalle}>📅 {item.fecha}  ⏰ {item.hora}</Text>
-      <Text style={styles.detalle}>🩺 {item.especialidad}</Text>
-      <Text style={styles.detalle}>👨‍⚕️ {item.doctor}</Text>
-    </TouchableOpacity>
-  );
+  const handleCitas = async () => {
+    setLoading(true);
+    try {
+      const result = await listarCitas();
+      if (result.success) {
+        setCitas(result.data);
+      } else {
+        Alert.alert("Error", result.message || "No se pudieron obtener los médicos");
+      }
+    } catch (error) {
+      Alert.alert("Error", "No se pudieron cargar los médicos");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", handleCitas);
+    return unsubscribe;
+  }, [navigation]);
+
+  const handleEditar = (citas) => {
+    navigation.navigate("NuevaCitas", { citas });
+  };
+
+  const handleCrear = () => {
+    navigation.navigate("NuevaCitas");
+  };
+
+  const handleView = (citas) => {
+    navigation.navigate("DetalleCitas", { citas });
+  };
+
+  const handleEliminar = (id) => {
+    Alert.alert("Eliminar Citas", "¿Estás seguro de eliminar esta cita?", [
+      { text: "Cancelar", style: "cancel" },
+      {
+        text: "Eliminar",
+        style: "destructive",
+        onPress: async () => {
+          try {
+            const result = await eliminarCitas(id);
+            if (result.success) {
+              handleCitas();
+            } else {
+              Alert.alert("Error", result.message || "No se pudo eliminar el médico");
+            }
+          } catch (error) {
+            Alert.alert("Error", "No se pudo eliminar el médico");
+          }
+        },
+      },
+    ]);
+  };
+
+  if (loading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color="#1976D2" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Citas</Text>
+      <Text style={styles.title}>Listado de Citas</Text>
 
-      <FlatList
-        data={citas}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-      />
-
-      <View style={styles.boton}>
-        <Button
-          title="Nueva Cita"
-          onPress={() => navigation.navigate('NuevaCitas')}
+      {citas.length > 0 ? (
+        <FlatList
+          style={styles.listContainer}
+          data={citas}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <CitasCard
+              citas={item}
+              onDelete={() => handleEliminar(item.id)}
+              onEdit={() => handleEditar(item)}
+              onView={() => handleView(item)}
+            />
+          )}
         />
-      </View>
+      ) : (
+        <View style={styles.emptyContainer}>
+          <Text>No hay citas registradas</Text>
+        </View>
+      )}
+
+      <TouchableOpacity style={styles.nuevoBoton} onPress={handleCrear}>
+        <Ionicons name="medkit" size={20} color="white" style={{ marginRight: 8 }} />
+        <Text style={styles.botonTexto}>Nueva Cita</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -64,29 +108,42 @@ export default function ListarCitas({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    backgroundColor: "#f5f5f5",
+    padding: 15,
   },
-  titulo: {
-    fontSize: 22,
+  title: {
+    fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 10,
+    color: "#333",
+    marginBottom: 20,
     textAlign: "center",
   },
-  item: {
-    backgroundColor: "#f2f2f2",
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 10,
+  listContainer: {
+    flex: 1,
   },
-  nombre: {
+  emptyContainer: {
+    alignItems: "center",
+    marginTop: 50,
+  },
+  nuevoBoton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#1976D2",
+    padding: 12,
+    borderRadius: 10,
+    justifyContent: "center",
+    marginTop: 20,
+    marginBottom: 10,
+    elevation: 3,
+  },
+  botonTexto: {
+    color: "white",
     fontSize: 16,
     fontWeight: "bold",
   },
-  detalle: {
-    fontSize: 14,
-    color: "#555",
-  },
-  boton: {
-    marginTop: 20,
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
