@@ -11,7 +11,18 @@ export default function PerfilStack() {
             <Stack.Screen 
                 name="Perfil"
                 component={Perfil}
-                options={{ title: "Perfil" }}
+                options={{
+                    title: "Perfil",
+                    headerStyle: {
+                        backgroundColor: "#0D47A1",
+                    },
+                    headerTintColor: "#fff",
+                    headerTitleStyle: {
+                        fontWeight: "bold",
+                        fontSize: 22,
+                    },
+                    headerTitleAlign: "center", // 👈 centra el título
+                }}
             />
         </Stack.Navigator>
     );

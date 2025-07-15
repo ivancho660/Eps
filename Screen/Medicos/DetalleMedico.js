@@ -18,7 +18,10 @@ export default function DetalleMedico() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>👨‍⚕️ Detalle del Médico</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>👨‍⚕️ Detalle del Médico</Text>
+        <View style={styles.headerLine} />
+      </View>
 
       <View style={styles.card}>
         <Text style={styles.label}>🆔 Documento:</Text>
@@ -44,8 +47,9 @@ export default function DetalleMedico() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "#E3F2FD",
+    paddingHorizontal: 16,
+    paddingTop: 16,
   },
   centered: {
     flex: 1,
@@ -56,48 +60,70 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "red",
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#1976D2",
+  header: {
+    alignItems: "center",
     marginBottom: 20,
-    textAlign: "center",
   },
-  card: {
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    padding: 20,
+  title: {
+    fontSize: 26,
+    fontWeight: "bold",
+    color: "#0D47A1",
+    backgroundColor: "#BBDEFB",
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 12,
+    textAlign: "center",
     elevation: 3,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
+  },
+  headerLine: {
+    height: 3,
+    width: '40%',
+    backgroundColor: '#1976D2',
+    borderRadius: 5,
+    marginTop: 8,
+  },
+  card: {
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    padding: 20,
     marginBottom: 30,
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
   },
   label: {
     fontWeight: "bold",
     fontSize: 16,
-    marginTop: 10,
+    marginTop: 12,
+    color: "#0D47A1",
   },
   value: {
     fontSize: 16,
     color: "#555",
-    marginBottom: 5,
+    marginBottom: 4,
   },
   boton: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#1976D2",
-    padding: 12,
-    borderRadius: 8,
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    borderRadius: 14,
     alignSelf: "center",
-    width: "60%",
+    marginTop: 10,
+    marginBottom: 20,
+    elevation: 6,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
     shadowRadius: 5,
-    elevation: 6,
   },
   botonIcon: {
     marginRight: 8,

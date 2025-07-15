@@ -8,14 +8,15 @@ export default function AuthNavegacion() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Login"
-        component={PantallaLogin}
-        options={{ title: 'Iniciar Sesión' }}
-      />
+  name="Login"
+  component={PantallaLogin}
+  options={{ headerShown: false }}
+/>
+
       <Stack.Screen
         name="Registro"
         component={PantallaRegistro}
-        options={{ title: 'Registro' }}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );

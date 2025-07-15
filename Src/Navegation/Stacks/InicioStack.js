@@ -13,7 +13,7 @@ const Stack = createNativeStackNavigator();
 export default function InicioStack() {
 
     return (
-        <Stack.Navigator initialRouteName='Inicio' ScreenOptions={{
+        <Stack.Navigator initialRouteName='Inicio' screenOptions={{
             headerShown: false,
         }}>
             <Stack.Screen

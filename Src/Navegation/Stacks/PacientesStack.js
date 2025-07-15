@@ -11,17 +11,50 @@ export default function ActividadesStack () {
             <Stack.Screen 
                 name= "ListarPacientes"
                 component={ListarPacientes}
-                options={{ title: "Pacientes" }}
+                options={{
+                    title: "Pacientes",
+                    headerStyle: {
+                        backgroundColor: "#0D47A1",
+                    },
+                    headerTintColor: "#fff",
+                    headerTitleStyle: {
+                        fontWeight: "bold",
+                        fontSize: 22,
+                    },
+                    headerTitleAlign: "center", // 👈 centra el título
+                }}
             />
             <Stack.Screen 
                 name= "DetallePaciente"
                 component={DetallePaciente}
-                options={{ title: "Detalle Pacientes" }}
+                options={{
+                    title: "Detalle Paciente",
+                    headerStyle: {
+                        backgroundColor: "#0D47A1",
+                    },
+                    headerTintColor: "#fff",
+                    headerTitleStyle: {
+                        fontWeight: "bold",
+                        fontSize: 22,
+                    },
+                    headerTitleAlign: "center", // 👈 centra el título
+                }}
             />
             <Stack.Screen 
                 name= "NuevoPaciente"
                 component={NuevoPaciente}
-                options={{ title: "Nuevo/Editar Pacientes" }}
+                options={{
+                    title: "Nuevo/Editar Paciente",
+                    headerStyle: {
+                        backgroundColor: "#0D47A1",
+                    },
+                    headerTintColor: "#fff",
+                    headerTitleStyle: {
+                        fontWeight: "bold",
+                        fontSize: 22,
+                    },
+                    headerTitleAlign: "center", // 👈 centra el título
+                }}
             />
         </Stack.Navigator>
     );

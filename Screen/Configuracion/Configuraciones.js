@@ -4,59 +4,42 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Switch,
   ScrollView,
-  useColorScheme
 } from "react-native";
 import { MaterialIcons, AntDesign, Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Configuracion() {
-  const systemTheme = useColorScheme(); // "light" o "dark"
-  const [isDarkMode, setIsDarkMode] = React.useState(systemTheme === "dark");
-
-  const colors = {
-    background: isDarkMode ? "#121212" : "#f9f9f9",
-    card: isDarkMode ? "#1e1e1e" : "#fff",
-    text: isDarkMode ? "#ffffff" : "#333333",
-    border: isDarkMode ? "#444" : "#ddd",
-    icon: "#007bff",
-    logout: "#ff4d4f",
-  };
+  const navigation = useNavigation();
 
   return (
-    <ScrollView contentContainerStyle={[styles.container, { backgroundColor: colors.background }]}>
-      <Text style={[styles.title, { color: colors.text }]}>Configuración</Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.title}>⚙️ Configuración</Text>
 
       <View style={styles.section}>
-        <TouchableOpacity style={[styles.option, { backgroundColor: colors.card }]}>
-          <AntDesign name="user" size={24} color={colors.icon} />
-          <Text style={[styles.optionText, { color: colors.text }]}>Perfil</Text>
+        {/* Perfil */}
+        <TouchableOpacity
+          style={styles.option}
+          onPress={() => navigation.navigate("Perfil")}
+        >
+          <AntDesign name="user" size={22} color="#1976D2" />
+          <Text style={styles.optionText}>Perfil</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.option, { backgroundColor: colors.card }]}>
-          <MaterialIcons name="notifications-none" size={24} color={colors.icon} />
-          <Text style={[styles.optionText, { color: colors.text }]}>Notificaciones</Text>
+        {/* Notificaciones */}
+        <TouchableOpacity style={styles.option}>
+          <MaterialIcons name="notifications-none" size={22} color="#1976D2" />
+          <Text style={styles.optionText}>Notificaciones</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.option, { backgroundColor: colors.card }]}>
-          <Feather name="lock" size={24} color={colors.icon} />
-          <Text style={[styles.optionText, { color: colors.text }]}>Privacidad</Text>
+        {/* Privacidad */}
+        <TouchableOpacity style={styles.option}>
+          <Feather name="lock" size={22} color="#1976D2" />
+          <Text style={styles.optionText}>Privacidad</Text>
         </TouchableOpacity>
 
-        <View style={[styles.option, { backgroundColor: colors.card, justifyContent: "space-between" }]}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Feather name="moon" size={24} color={colors.icon} />
-            <Text style={[styles.optionText, { color: colors.text }]}>Modo oscuro</Text>
-          </View>
-          <Switch
-            value={isDarkMode}
-            onValueChange={setIsDarkMode}
-            thumbColor={isDarkMode ? "#007bff" : "#ccc"}
-            trackColor={{ false: "#999", true: "#007bff" }}
-          />
-        </View>
-
-        
+        {/* Modo oscuro desactivado visualmente */}
+   
       </View>
     </ScrollView>
   );
@@ -64,26 +47,41 @@ export default function Configuracion() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 24,
+    padding: 20,
     flexGrow: 1,
+    backgroundColor: "#E3F2FD",
   },
   title: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: "bold",
-    marginBottom: 24,
+    marginBottom: 20,
+    color: "#0D47A1",
+    textAlign: "center",
+    backgroundColor: "#BBDEFB",
+    padding: 10,
+    borderRadius: 10,
+    elevation: 3,
   },
   section: {
     width: "100%",
   },
   option: {
-    padding: 16,
-    marginBottom: 12,
-    borderRadius: 10,
     flexDirection: "row",
     alignItems: "center",
+    backgroundColor: "#fff",
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   optionText: {
-    marginLeft: 12,
     fontSize: 16,
+    color: "#333",
+    marginLeft: 12,
+    fontWeight: "600",
   },
 });

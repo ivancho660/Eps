@@ -65,13 +65,15 @@ export default function ListarCitas() {
     ]);
   };
 
-  if (loading) {
-    return (
-      <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#1976D2" />
-      </View>
-    );
-  }
+if (loading) {
+  return (
+    <View style={styles.centered}>
+      <ActivityIndicator size="large" color="#1976D2" />
+      <Text style={styles.loadingText}>Cargando citas...</Text>
+    </View>
+  );
+}
+
 
   return (
     <View style={styles.container}>
@@ -84,11 +86,12 @@ export default function ListarCitas() {
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <CitasCard
-              citas={item}
-              onDelete={() => handleEliminar(item.id)}
-              onEdit={() => handleEditar(item)}
-              onView={() => handleView(item)}
-            />
+  citas={item}
+  onDelete={() => handleEliminar(item.id)}
+  onEdit={() => handleEditar(item)}
+  onView={() => handleView(item)} // Esto es clave
+/>
+
           )}
         />
       ) : (
@@ -108,18 +111,27 @@ export default function ListarCitas() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#E3F2FD", // Fondo suave azulado
     padding: 15,
   },
   title: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: "bold",
-    color: "#333",
+    color: "#0D47A1",
     marginBottom: 20,
     textAlign: "center",
+    backgroundColor: "#BBDEFB",
+    paddingVertical: 12,
+    borderRadius: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   listContainer: {
     flex: 1,
+    marginBottom: 20,
   },
   emptyContainer: {
     alignItems: "center",
@@ -129,12 +141,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#1976D2",
-    padding: 12,
-    borderRadius: 10,
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    borderRadius: 14,
     justifyContent: "center",
-    marginTop: 20,
-    marginBottom: 10,
-    elevation: 3,
+    marginBottom: 20,
+    alignSelf: "center",
+    elevation: 6,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
   },
   botonTexto: {
     color: "white",
@@ -146,4 +163,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  loadingText: {
+  marginTop: 15,
+  fontSize: 16,
+  color: "#1976D2",
+  fontWeight: "500",
+},
+
 });

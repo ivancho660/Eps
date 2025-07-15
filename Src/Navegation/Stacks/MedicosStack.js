@@ -11,17 +11,50 @@ export default function ActividadesStack () {
             <Stack.Screen 
                 name= "ListarMedicos"
                 component={ListarMedicos}
-                options={{ title: "Medicos" }}
+                options={{
+                    title: "Médicos",
+                    headerStyle: {
+                        backgroundColor: "#0D47A1",
+                    },
+                    headerTintColor: "#fff",
+                    headerTitleStyle: {
+                        fontWeight: "bold",
+                        fontSize: 22,
+                    },
+                    headerTitleAlign: "center", // 👈 centra el título
+                }}
             />
              <Stack.Screen 
                 name= "DetalleMedico"
                 component={DetalleMedico}
-                options={{ title: "Detalle Medicos" }}
+                options={{
+                    title: "Detalle Médico",
+                    headerStyle: {
+                        backgroundColor: "#0D47A1",
+                    },
+                    headerTintColor: "#fff",
+                    headerTitleStyle: {
+                        fontWeight: "bold",
+                        fontSize: 22,
+                    },
+                    headerTitleAlign: "center", // 👈 centra el título
+                }}
             />
              <Stack.Screen 
                 name= "NuevoMedico"
                 component={NuevoMedico}
-                options={{ title: "Nuevo/Editar Medicos" }}
+                options={{
+                    title: "Nuevo/Editar Médico",
+                    headerStyle: {
+                        backgroundColor: "#0D47A1",
+                    },
+                    headerTintColor: "#fff",
+                    headerTitleStyle: {
+                        fontWeight: "bold",
+                        fontSize: 22,
+                    },
+                    headerTitleAlign: "center", // 👈 centra el título
+                }}
             />
         </Stack.Navigator>
     );

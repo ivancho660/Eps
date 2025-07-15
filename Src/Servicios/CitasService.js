@@ -15,18 +15,36 @@ export const listarCitas = async () => {
     }
 };
 
-export const eliminarCitas= async (id) =>{
-try {
+export const eliminarCitas = async (id) => {
+  try {
     await api.delete(`/eliminarCitas/${id}`);
-    return {success: true};
-} catch (error) {
-    console.error("Error al eliminar la cita:", error.response ? error.response.data : error.message);
+    return { success: true };
+  } catch (error) {
+    let message = "Error al eliminar la cita.";
+
+    if (error.response && error.response.data) {
+      const data = error.response.data;
+
+      if (typeof data.message === "string") {
+        // Detecta si el backend envía un error por relación de integridad
+        if (data.message.includes("citas asignadas") || data.message.includes("23000")) {
+          message = "No se puede eliminar la cita porque ya está relacionada con otro registro.";
+        } else {
+          message = data.message;
+        }
+      } else if (typeof data.message === "object") {
+        const errores = Object.values(data.message).flat();
+        message = errores.join("\n");
+      }
+    }
+
     return {
-        success: false,
-        message: error.response ?  error.response.data.message: "Error de conexión"
+      success: false,
+      message,
     };
-}
+  }
 };
+
 
 export const crearCitas = async (data) => {
     try {

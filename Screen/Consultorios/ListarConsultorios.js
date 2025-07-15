@@ -76,14 +76,18 @@ export default function ListarConsultorio() {
   if (loading) {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#1976D2" />
+        <ActivityIndicator size="large" color="#2A7F8C" />
+        <Text style={styles.loadingText}>Cargando consultorios...</Text>
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Listado de Consultorios</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Listado de Consultorios</Text>
+        <View style={styles.headerLine} />
+      </View>
 
       <FlatList
         data={consultorios}
@@ -95,21 +99,21 @@ export default function ListarConsultorio() {
             onDelete={() => handleEliminar(item.id)}
           />
         )}
-        ListEmptyComponent={<Text style={styles.emptyText}>No hay consultorios registrados.</Text>}
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <Ionicons name="medical" size={50} color="#D1E7E9" />
+            <Text style={styles.emptyText}>No hay consultorios registrados</Text>
+          </View>
+        }
         contentContainerStyle={consultorios.length === 0 && styles.centered}
+        showsVerticalScrollIndicator={false}
       />
 
-      <TouchableOpacity style={styles.boton} onPress={handleCrear}>
-        <View style={styles.botonContent}>
-          <Ionicons
-            name="add-circle-outline"
-            size={20}
-            color="#fff"
-            style={styles.botonIcon}
-          />
-          <Text style={styles.textoBoton}>Nuevo Consultorio</Text>
-        </View>
-      </TouchableOpacity>
+      <TouchableOpacity style={styles.nuevoBoton} onPress={handleCrear}>
+  <Ionicons name="medkit" size={20} color="white" style={{ marginRight: 8 }} />
+  <Text style={styles.botonTexto}>Nuevo Consultorio</Text>
+</TouchableOpacity>
+
     </View>
   );
 }
@@ -117,51 +121,97 @@ export default function ListarConsultorio() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F9F9F9",
-    padding: 10,
+    backgroundColor: "#E3F2FD", // Fondo azul claro como base
+    paddingHorizontal: 16,
+    paddingTop: 16,
+  },
+  header: {
+    alignItems: "center",
+    marginBottom: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: "bold",
-    color: "#333",
-    marginBottom: 10,
+    color: "#0D47A1", // Azul fuerte
+    backgroundColor: "#BBDEFB", // Azul intermedio
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 12,
     textAlign: "center",
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  headerLine: {
+    height: 3,
+    width: '40%',
+    backgroundColor: '#1976D2',
+    borderRadius: 5,
+    marginTop: 8,
   },
   centered: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
-  emptyText: {
+  loadingText: {
+    marginTop: 15,
     fontSize: 16,
-    color: "#777",
+    color: "#1976D2",
+    fontWeight: '500',
   },
-  boton: {
-    backgroundColor: "#1976D2",
-    padding: 15,
-    borderRadius: 8,
-    flexDirection: "row",
+  emptyContainer: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    width: "80%",
-    alignSelf: "center",
-    marginTop: 20,
+    padding: 30,
+  },
+  emptyText: {
+    fontSize: 18,
+    color: "#0D47A1",
+    marginTop: 15,
+    textAlign: 'center',
+    fontWeight: '500',
+  },
+  fab: {
+    position: 'absolute',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#1976D2', // Azul del botón
+    justifyContent: 'center',
+    alignItems: 'center',
+    bottom: 30,
+    right: 30,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.27,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
     shadowRadius: 4.65,
-    elevation: 6,
+    elevation: 8,
   },
-  botonContent: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  botonIcon: {
-    marginRight: 8,
-  },
-  textoBoton: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
+  nuevoBoton: {
+  flexDirection: "row",
+  alignItems: "center",
+  backgroundColor: "#1976D2",
+  paddingVertical: 14,
+  paddingHorizontal: 24,
+  borderRadius: 14,
+  justifyContent: "center",
+  marginTop: 20,
+  marginBottom: 20,
+  alignSelf: "center",
+  elevation: 6,
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 3 },
+  shadowOpacity: 0.2,
+  shadowRadius: 5,
+},
+botonTexto: {
+  color: "white",
+  fontSize: 16,
+  fontWeight: "bold",
+},
+
 });

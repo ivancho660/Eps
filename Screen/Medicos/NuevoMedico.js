@@ -20,12 +20,11 @@ export default function NuevoMedico() {
 
   const [nombre, setNombre] = useState(medico?.nombre || "");
   const [documento, setDocumento] = useState(medico?.documento?.toString() || "");
-  const [idEspecialidad, setIdEspecialidad] = useState(
-    medico?.idEspecialidad?.toString() || ""
-  );
-
+  const [idEspecialidad, setIdEspecialidad] = useState(medico?.idEspecialidad?.toString() || "");
   const [loading, setLoading] = useState(false);
   const [especialidades, setEspecialidades] = useState([]);
+
+  const esEdicion = !!medico;
 
   useEffect(() => {
     const cargarEspecialidades = async () => {
@@ -33,16 +32,11 @@ export default function NuevoMedico() {
       if (result.success) {
         setEspecialidades(result.data);
       } else {
-        Alert.alert(
-          "Error",
-          result.message || "No se pudieron cargar las especialidades"
-        );
+        Alert.alert("Error", result.message || "No se pudieron cargar las especialidades");
       }
     };
     cargarEspecialidades();
   }, []);
-
-  const esEdicion = !!medico;
 
   const handleGuardar = async () => {
     if (!nombre || !documento || !idEspecialidad) {
@@ -51,7 +45,6 @@ export default function NuevoMedico() {
     }
 
     setLoading(true);
-
     try {
       let result;
       if (esEdicion) {
@@ -69,10 +62,7 @@ export default function NuevoMedico() {
       }
 
       if (result?.success) {
-        Alert.alert(
-          "Éxito",
-          `Doctor ${esEdicion ? "editado" : "creado"} correctamente`
-        );
+        Alert.alert("Éxito", `Doctor ${esEdicion ? "editado" : "creado"} correctamente`);
         navigation.goBack();
       } else {
         let errorMsg = "No se pudo guardar el doctor";
@@ -86,10 +76,7 @@ export default function NuevoMedico() {
         Alert.alert("Error", errorMsg);
       }
     } catch (error) {
-      Alert.alert(
-        "Error",
-        "Ocurrió un error al guardar el doctor. Por favor, inténtalo de nuevo más tarde."
-      );
+      Alert.alert("Error", "Ocurrió un error al guardar el doctor.");
     } finally {
       setLoading(false);
     }
@@ -98,36 +85,36 @@ export default function NuevoMedico() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
-        {esEdicion ? "Editar Doctor" : "Nuevo Doctor"}
+        {esEdicion ? "Editar Médico" : "Registrar Médico"}
       </Text>
 
       <Picker
         selectedValue={idEspecialidad}
         onValueChange={(itemValue) => setIdEspecialidad(itemValue)}
         style={styles.input}
+        dropdownIconColor="#0D47A1"
       >
         <Picker.Item label="Seleccione una especialidad" value="" />
-        {especialidades.map((especialidad) => (
-          <Picker.Item
-            key={especialidad.id}
-            label={especialidad.nombre}
-            value={especialidad.id.toString()}
-          />
+        {especialidades.map((esp) => (
+          <Picker.Item key={esp.id} label={esp.nombre} value={esp.id.toString()} />
         ))}
       </Picker>
 
       <TextInput
-        placeholder="Nombre"
+        placeholder="Nombre completo"
         value={nombre}
         onChangeText={setNombre}
         style={styles.input}
+        placeholderTextColor="#999"
       />
+
       <TextInput
         placeholder="Documento"
         value={documento}
         onChangeText={setDocumento}
-        style={styles.input}
         keyboardType="numeric"
+        style={styles.input}
+        placeholderTextColor="#999"
       />
 
       <TouchableOpacity
@@ -139,7 +126,7 @@ export default function NuevoMedico() {
           <ActivityIndicator color="#fff" />
         ) : (
           <Text style={styles.saveButtonText}>
-            {esEdicion ? "Guardar Cambios" : "Registrar Doctor"}
+            {esEdicion ? "Guardar Cambios" : "Registrar Médico"}
           </Text>
         )}
       </TouchableOpacity>
@@ -150,36 +137,50 @@ export default function NuevoMedico() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#E3F2FD",
     padding: 20,
     justifyContent: "center",
   },
   title: {
-    fontSize: 22,
+    fontSize: 26,
     fontWeight: "bold",
-    marginBottom: 20,
+    color: "#0D47A1",
     textAlign: "center",
+    backgroundColor: "#BBDEFB",
+    paddingVertical: 12,
+    borderRadius: 12,
+    marginBottom: 30,
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   input: {
+    backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: "#aaa",
-    padding: 10,
-    marginBottom: 15,
-    borderRadius: 5,
+    borderColor: "#ccc",
+    borderRadius: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    fontSize: 16,
+    marginBottom: 20,
   },
   saveButton: {
     backgroundColor: "#1976D2",
-    padding: 15,
-    borderRadius: 8,
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    borderRadius: 14,
     alignItems: "center",
     marginTop: 10,
+    elevation: 6,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 5,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
   },
   saveButtonText: {
-    color: "white",
+    color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
   },
