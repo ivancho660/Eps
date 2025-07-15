@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 
 export default function DetalleCitas({ route }) {
+  // Extraer los datos de la cita desde los parámetros de la ruta
   const { citas } = route.params;
 
   return (

@@ -11,7 +11,7 @@ const api = axios.create({
     },
 });
 
-
+// Rutas públicas que no requieren autenticación
 const RutasPublicas = ['/login','/registrar'];
 
 api.interceptors.request.use(
@@ -31,7 +31,7 @@ api.interceptors.request.use(
         return Promise.reject(error);
     }
 );
-
+// Interceptor para manejar respuestas y errores
 api.interceptors.response.use(
     (response) => response,
     async (error) => {

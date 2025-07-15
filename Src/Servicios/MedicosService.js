@@ -1,5 +1,6 @@
 import api from "./Conexion";
 
+// Funciones para manejar las especialidades: listar, crear, editar y eliminar
 export const listarMedicos = async () => {
     try {
         const response = await api.get(`/listarMedicos`);

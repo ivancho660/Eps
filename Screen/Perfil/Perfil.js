@@ -8,7 +8,7 @@ import { LogoutUser } from "../../Src/Servicios/AuthService";
 export default function Perfil() {
   const [usuario, setUsuario] = useState(null);
   const [loading, setLoading] = useState(true);
-
+// Cargar el perfil del usuario al montar el componente
   useEffect(() => {
     const cargarPerfil = async () => {
       try {
@@ -26,7 +26,7 @@ export default function Perfil() {
         setLoading(false);
       }
     };
-
+// Llamar a la función para cargar el perfil
     cargarPerfil();
   }, []);
 
@@ -37,7 +37,7 @@ export default function Perfil() {
       </View>
     );
   }
-
+// Si no hay usuario, mostrar un mensaje de error
   if (!usuario) {
     return (
       <View style={styles.container}>

@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "./Conexion";
 
-
+// Funciones para manejar los pacientes: listar, crear, editar y eliminar
 export const listarPacientes = async () => {
     try {
         const response = await api.get(`/listarPacientes`);

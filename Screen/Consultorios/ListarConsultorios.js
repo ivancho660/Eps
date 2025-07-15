@@ -1,23 +1,16 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  Alert,
-  ActivityIndicator,
-  TouchableOpacity,
-} from "react-native";
+import {  View,  Text,  FlatList,  StyleSheet,  Alert,  ActivityIndicator,  TouchableOpacity,} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import ConsultoriosCard from "../../Components/ConsultoriosCard";
 import { listarConsultorios, eliminarConsultorios } from "../../Src/Servicios/ConsultoriosService";
 
 export default function ListarConsultorio() {
+  // Estados para manejar los consultorios y el estado de carga
   const [consultorios, setConsultorios] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
-
+// Función para obtener la lista de consultorios
   const handleConsultorios = async () => {
     setLoading(true);
     try {
@@ -33,12 +26,12 @@ export default function ListarConsultorio() {
       setLoading(false);
     }
   };
-
+// carga de los consultorios al montar el componente y al enfocar la pantalla
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", handleConsultorios);
     return unsubscribe;
   }, [navigation]);
-
+// Funciones para manejar las acciones de editar, crear y eliminar consultorios
   const handleEliminar = (id) => {
     Alert.alert(
       "Eliminar Consultorio",
@@ -72,7 +65,7 @@ export default function ListarConsultorio() {
   const handleCrear = () => {
     navigation.navigate("NuevoConsultorios");
   };
-
+// Si está cargando, mostrar un indicador de carga
   if (loading) {
     return (
       <View style={styles.centered}>

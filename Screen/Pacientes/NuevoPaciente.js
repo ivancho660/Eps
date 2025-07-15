@@ -14,7 +14,7 @@ import { editarPacientes, crearPacientes } from "../../Src/Servicios/PacientesSe
 export default function NuevoPaciente() {
   const navigation = useNavigation();
   const route = useRoute();
-
+// Navegación y parámetros
   const pacientes = route.params?.pacientes;
   const [nombre, setNombre] = useState(pacientes?.nombre || "");
   const [documento, setDocumento] = useState(pacientes?.documento?.toString() || "");
@@ -22,12 +22,13 @@ export default function NuevoPaciente() {
   const [loading, setLoading] = useState(false);
 
   const esEdicion = !!pacientes;
-
+// Función que verifica si estamos en modo edición y función para guardar los datos
   const handleGuardar = async () => {
     if (!nombre || !documento || !telefono) {
       Alert.alert("Campos requeridos", "Todos los campos son obligatorios");
       return;
     }
+    // Validación de campos
     setLoading(true);
     try {
       let result;

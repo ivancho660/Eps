@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  Alert,
-  ActivityIndicator,
-  TouchableOpacity,
-} from "react-native";
+import {  View,  Text,  FlatList,  StyleSheet,  Alert,  ActivityIndicator,  TouchableOpacity,} from "react-native";
 import PacientesCard from "../../Components/PacientesCard";
 import { useNavigation } from "@react-navigation/native";
 import { listarPacientes, eliminarPacientes } from "../../Src/Servicios/PacientesService";
@@ -17,7 +9,7 @@ export default function ListarPaciente() {
   const [pacientes, setPacientes] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
-
+// Función para obtener la lista de pacientes
   const handlePacientes = async () => {
     setLoading(true);
     try {
@@ -33,12 +25,12 @@ export default function ListarPaciente() {
       setLoading(false);
     }
   };
-
+// Carga de los pacientes al montar el componente 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", handlePacientes);
     return unsubscribe;
   }, [navigation]);
-
+// Funciones para manejar las acciones de editar, crear y eliminar pacientes
   const handleEliminar = (id) => {
     Alert.alert("Eliminar Paciente", "¿Estás seguro que deseas eliminar este paciente?", [
       { text: "Cancelar", style: "cancel" },
@@ -68,7 +60,7 @@ export default function ListarPaciente() {
   const handleCrear = () => {
     navigation.navigate("NuevoPaciente");
   };
-
+// Si está cargando, mostrar un indicador de carga
   if (loading) {
     return (
       <View style={styles.centered}>

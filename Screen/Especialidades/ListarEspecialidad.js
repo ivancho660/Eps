@@ -1,23 +1,16 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  Alert,
-  ActivityIndicator,
-  TouchableOpacity,
-} from "react-native";
+import {  View,  Text,  FlatList,  StyleSheet,  Alert,  ActivityIndicator,  TouchableOpacity,} from "react-native";
 import EspecialidadesCard from "../../Components/EspecialidadesCard";
 import { useNavigation } from "@react-navigation/native";
 import { listarEspecialidades, eliminarEspecialidades } from "../../Src/Servicios/EspecialidadesService";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function ListarPaciente() {
+  // Estados para manejar las especialidades y el estado de carga
   const [especialidades, setEspecialidades] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
-
+// Función para obtener la lista de especialidades
   const handleEspecialidades = async () => {
     setLoading(true);
     try {
@@ -33,12 +26,12 @@ export default function ListarPaciente() {
       setLoading(false);
     }
   };
-
+// Carga de las especialidades al montar el componente 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", handleEspecialidades);
     return unsubscribe;
   }, [navigation]);
-
+// Funciones para manejar las acciones de editar, crear y eliminar especialidades
   const handleEliminar = (id) => {
     Alert.alert(
       "Eliminar Especialidad",
@@ -72,7 +65,7 @@ export default function ListarPaciente() {
   const handleCrear = () => {
     navigation.navigate("NuevaEspecialidad");
   };
-
+// Si está cargando, mostrar un indicador de carga
   if (loading) {
     return (
       <View style={styles.centered}>

@@ -4,12 +4,13 @@ import { useState } from "react";
 import { loginUser } from "../../Src/Servicios/AuthService";
 
 export default function LoginScreen({ navigation }) {
+  // Estados para manejar los campos de entrada y el estado de carga
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
-    setLoading(true);
+    setLoading(true); // Indica que el proceso de login ha comenzado
     try {
       const result = await loginUser(email, password);
       if (result.success) {
@@ -21,7 +22,7 @@ export default function LoginScreen({ navigation }) {
             },
           },
         ]);
-      } else {
+      } else { //manejo de errores 
         Alert.alert(
           "Error de login",
           result.message || "Ocurrió un error al iniciar sesión"

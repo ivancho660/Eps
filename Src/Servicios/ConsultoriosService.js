@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "./Conexion";
 
-
+// Funciones para manejar los consultorios: listar, crear, editar y eliminar
 export const listarConsultorios = async () => {
     try {
         const response = await api.get(`/listarConsultorios`);

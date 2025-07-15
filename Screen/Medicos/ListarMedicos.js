@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-  ActivityIndicator,
-  FlatList,
-} from "react-native";
+import {  View,  Text,  TouchableOpacity,  StyleSheet,  Alert,  ActivityIndicator,  FlatList,} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import MedicosCard from "../../Components/MedicosCard";
 import { useNavigation } from "@react-navigation/native";
@@ -17,7 +9,7 @@ export default function ListarMedicos() {
   const [medico, setMedico] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
-
+// Función para obtener la lista de médicos
   const handleMedicos = async () => {
     setLoading(true);
     try {
@@ -33,12 +25,12 @@ export default function ListarMedicos() {
       setLoading(false);
     }
   };
-
+// Carga de los médicos al montar el componente 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", handleMedicos);
     return unsubscribe;
   }, [navigation]);
-
+// Funciones para manejar las acciones de editar, crear, ver y eliminar médicos
   const handleEditar = (medico) => {
     navigation.navigate("NuevoMedico", { medico });
   };
@@ -101,7 +93,7 @@ export default function ListarMedicos() {
       },
     ]);
   };
-
+// Si está cargando, mostrar un indicador de carga
   if (loading) {
     return (
       <View style={styles.centered}>

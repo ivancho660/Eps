@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "./Conexion";
-
+// Servicios de autenticación para manejar el inicio de sesión, registro y cierre de sesión
 export const loginUser = async (email, password) => {
     try {
         const response = await api.post('/login', { email, password });

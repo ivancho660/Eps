@@ -4,7 +4,7 @@ import { useState } from "react";
 import { editarConsultorios, crearConsultorios } from "../../Src/Servicios/ConsultoriosService";
 
 export default function NuevoConsultorio() {
-
+// Navegación y parámetros
     const navigation = useNavigation();
     const route = useRoute();
 
@@ -14,12 +14,12 @@ export default function NuevoConsultorio() {
     const [loading, setLoading] = useState(false);
 
     const esEdicion = !!consultorios;
-
+// Verificar si estamos en modo edición
     const handleGuardar = async () => {
         if (!numero || !piso) {
             Alert.alert("Campos requeridos", "Todos los campos son obligatorios");
             return;
-        }
+        }// Validación de campos
         setLoading(true);
         try {
             let result;

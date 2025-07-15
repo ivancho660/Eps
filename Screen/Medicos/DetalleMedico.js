@@ -7,7 +7,8 @@ export default function DetalleMedico() {
   const route = useRoute();
   const navigation = useNavigation();
   const { medico } = route.params || {};
-
+// Obtenemos los datos del médico desde los parámetros de la ruta
+  // Si no hay datos del médico, mostramos un mensaje de error
   if (!medico) {
     return (
       <View style={styles.centered}>

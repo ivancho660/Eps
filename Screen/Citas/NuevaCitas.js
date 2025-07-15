@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Alert,
-  ActivityIndicator,
-  Platform,
-} from "react-native";
+import {  View,  Text,  StyleSheet,  TouchableOpacity,  Alert,  ActivityIndicator,  Platform,} from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { listarMedicos } from "../../Src/Servicios/MedicosService";
@@ -17,12 +9,13 @@ import { crearCitas, editarCitas } from "../../Src/Servicios/CitasService";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function CrearCita() {
+  // Navegación y parámetros
   const navigation = useNavigation();
   const route = useRoute();
   const citas = route.params?.citas;
-
+// Verificar si estamos en modo edición
   const esEdicion = !!citas;
-
+// Estados para manejar los campos de entrada
   const [fecha, setFecha] = useState(citas?.fecha || "");
 const [hora, setHora] = useState(() => {
   if (!citas?.hora) return "";
@@ -33,7 +26,7 @@ const [hora, setHora] = useState(() => {
   }
 
   return citas.hora;
-});
+});// Estados para manejar los selectores
   const [idPacientes, setIdPacientes] = useState(citas?.idPacientes?.toString() || "");
   const [idMedicos, setIdMedicos] = useState(citas?.idMedicos?.toString() || "");
   const [idConsultorio, setIdConsultorio] = useState(citas?.idConsultorio?.toString() || "");
@@ -61,7 +54,7 @@ const [hora, setHora] = useState(() => {
     cargarDatos();
   }, []);
 
-  // Reasignar datos seleccionados en modo edición si es necesario
+  // Si estamos en modo edición, establecer los valores iniciales
   useEffect(() => {
     if (esEdicion) {
       setIdPacientes(citas.idPacientes.toString());
@@ -69,13 +62,13 @@ const [hora, setHora] = useState(() => {
       setIdConsultorio(citas.idConsultorio.toString());
     }
   }, [pacientes, medicos, consultorios]);
-
+// Función para manejar el guardado de la cita
   const handleGuardar = async () => {
     if (!fecha || !hora || !idPacientes || !idMedicos || !idConsultorio) {
       Alert.alert("Error", "Por favor completa todos los campos");
       return;
     }
-
+// Validar que la fecha y hora sean válidas
     setLoading(true);
 
     try {
@@ -87,9 +80,9 @@ const [hora, setHora] = useState(() => {
         idMedicos: parseInt(idMedicos),
         idConsultorio: parseInt(idConsultorio),
       };
-
+// Si estamos en edición, usamos editarCitas, de lo contrario crearCitas
       result = esEdicion ? await editarCitas(citas.id, payload) : await crearCitas(payload);
-
+// Manejo de la respuesta
       if (result?.success) {
         Alert.alert("Éxito", `Cita ${esEdicion ? "Actualizada" : "creada"} correctamente`);
         navigation.goBack();
@@ -107,7 +100,7 @@ const [hora, setHora] = useState(() => {
     }
   };
 
-  // Fecha y hora
+  // Mostrar el selector Fecha 
   const mostrarSelectorFecha = () => setMostrarPickerFecha(true);
   const cambiarFecha = (event, selectedDate) => {
     setMostrarPickerFecha(false);
@@ -115,7 +108,7 @@ const [hora, setHora] = useState(() => {
       setFecha(selectedDate.toISOString().split("T")[0]);
     }
   };
-
+// Mostrar el selector de hora
   const mostrarSelectorHora = () => setMostrarPickerHora(true);
   const cambiarHora = (event, selectedTime) => {
     setMostrarPickerHora(false);

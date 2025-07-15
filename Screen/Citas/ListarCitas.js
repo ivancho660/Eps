@@ -6,10 +6,11 @@ import { useNavigation } from "@react-navigation/native";
 import { listarCitas, eliminarCitas } from "../../Src/Servicios/CitasService";
 
 export default function ListarCitas() {
+  // Estados para manejar las citas y el estado de carga
   const [citas, setCitas] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
-
+// Función para obtener la lista de citas
   const handleCitas = async () => {
     setLoading(true);
     try {
@@ -25,12 +26,12 @@ export default function ListarCitas() {
       setLoading(false);
     }
   };
-
+// Efecto para cargar las citas al montar el componente y al enfocar la pantalla
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", handleCitas);
     return unsubscribe;
   }, [navigation]);
-
+// Funciones para manejar las acciones de editar, crear, ver y eliminar citas
   const handleEditar = (citas) => {
     navigation.navigate("NuevaCitas", { citas });
   };
@@ -42,7 +43,7 @@ export default function ListarCitas() {
   const handleView = (citas) => {
     navigation.navigate("DetalleCitas", { citas });
   };
-
+// Función para manejar la eliminación de citas
   const handleEliminar = (id) => {
     Alert.alert("Eliminar Citas", "¿Estás seguro de eliminar esta cita?", [
       { text: "Cancelar", style: "cancel" },
@@ -64,7 +65,7 @@ export default function ListarCitas() {
       },
     ]);
   };
-
+// Mostrar un indicador de carga mientras se obtienen las citas
 if (loading) {
   return (
     <View style={styles.centered}>
@@ -85,6 +86,7 @@ if (loading) {
           data={citas}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
+            // Aquí se renderiza cada tarjeta de cita
             <CitasCard
   citas={item}
   onDelete={() => handleEliminar(item.id)}
@@ -99,7 +101,7 @@ if (loading) {
           <Text>No hay citas registradas</Text>
         </View>
       )}
-
+      {/* Botón para crear una nueva cita */}
       <TouchableOpacity style={styles.nuevoBoton} onPress={handleCrear}>
         <Ionicons name="medkit" size={20} color="white" style={{ marginRight: 8 }} />
         <Text style={styles.botonTexto}>Nueva Cita</Text>

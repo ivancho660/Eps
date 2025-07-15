@@ -7,19 +7,19 @@ import { editarEspecialidades, crearEspecialidades } from "../../Src/Servicios/E
 export default function NuevoEspecialidad() {
   const navigation = useNavigation();
   const route = useRoute();
-
+// Navegación y parámetros
   const especialidades = route.params?.especialidades;
   const [nombre, setNombre] = useState(especialidades?.nombre || '');
   const [loading, setLoading] = useState(false);
 
   const esEdicion = !!especialidades;
-
+//funcion que verifica si estamos en modo edición y funcon para guardar los datos
   const handleGuardar = async () => {
     if (!nombre) {
       Alert.alert("Campos requeridos", "Todos los campos son obligatorios");
       return;
     }
-
+// Validación de campos
     setLoading(true);
 
     try {
@@ -29,7 +29,7 @@ export default function NuevoEspecialidad() {
       } else {
         result = await crearEspecialidades({ nombre });
       }
-
+//mensajes de error o exito 
       if (result.success) {
         Alert.alert("Éxito", esEdicion ? "Especialidad actualizada correctamente" : "Especialidad creada correctamente");
         navigation.goBack();
@@ -42,7 +42,7 @@ export default function NuevoEspecialidad() {
       setLoading(false);
     }
   };
-
+//condicion de carga 
   if (loading) {
     return (
       <View style={styles.loadingContainer}>

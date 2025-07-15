@@ -4,24 +4,25 @@ import { useState } from "react";
 import { registerUser } from "../../Src/Servicios/AuthService";
 
 export default function RegistroScreen({ navigation }) {
+  // Estados para manejar los campos de entrada y el estado de carga
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [rol, setRol] = useState("");
   const [password, setPassword] = useState("");
   const [confirmarPassword, setConfirmarPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
+// Función para manejar el registro del usuario
   const handleRegister = async () => {
     if (!name || !email || !rol || !password || !confirmarPassword) {
       Alert.alert("Campos requeridos", "Todos los campos son obligatorios.");
       return;
     }
-
+// Validación de formato de correo electrónico
     if (password !== confirmarPassword) {
       Alert.alert("Contraseña", "Las contraseñas no coinciden.");
       return;
     }
-
+// Validación de contraseña
     setLoading(true);
     try {
       const result = await registerUser(name, email, rol, password, confirmarPassword);

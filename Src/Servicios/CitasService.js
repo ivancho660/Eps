@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "./Conexion";
 
-
+// Funciones para manejar las citas: listar, crear, editar y eliminar
 export const listarCitas = async () => {
     try {
         const response = await api.get("/listarCitas");

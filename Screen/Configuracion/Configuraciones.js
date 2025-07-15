@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import {  View,  Text,  StyleSheet,  TouchableOpacity,  ScrollView,} from "react-native";
 import { MaterialIcons, AntDesign, Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 

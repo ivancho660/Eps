@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  Alert,
-  StyleSheet,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
+import {  View,  Text,  TextInput,  Alert,  StyleSheet,  TouchableOpacity,  ActivityIndicator,} from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { listarEspecialidades } from "../../Src/Servicios/EspecialidadesService";
@@ -17,7 +9,7 @@ export default function NuevoMedico() {
   const navigation = useNavigation();
   const route = useRoute();
   const medico = route.params?.medico;
-
+// Estados para manejar los campos de entrada y el estado de carga
   const [nombre, setNombre] = useState(medico?.nombre || "");
   const [documento, setDocumento] = useState(medico?.documento?.toString() || "");
   const [idEspecialidad, setIdEspecialidad] = useState(medico?.idEspecialidad?.toString() || "");
@@ -25,7 +17,7 @@ export default function NuevoMedico() {
   const [especialidades, setEspecialidades] = useState([]);
 
   const esEdicion = !!medico;
-
+// Navegación y parámetros
   useEffect(() => {
     const cargarEspecialidades = async () => {
       const result = await listarEspecialidades();
@@ -37,13 +29,13 @@ export default function NuevoMedico() {
     };
     cargarEspecialidades();
   }, []);
-
+// Función que verifica si estamos en modo edición y función para guardar los datos
   const handleGuardar = async () => {
     if (!nombre || !documento || !idEspecialidad) {
       Alert.alert("Error", "Por favor completa todos los campos");
       return;
     }
-
+// Validación de campos
     setLoading(true);
     try {
       let result;
@@ -60,7 +52,7 @@ export default function NuevoMedico() {
           idEspecialidad: parseInt(idEspecialidad),
         });
       }
-
+// Mensajes de error o éxito
       if (result?.success) {
         Alert.alert("Éxito", `Doctor ${esEdicion ? "editado" : "creado"} correctamente`);
         navigation.goBack();
