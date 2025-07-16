@@ -7,6 +7,7 @@ import { listarPacientes } from "../../Src/Servicios/PacientesService";
 import { listarConsultorios } from "../../Src/Servicios/ConsultoriosService";
 import { crearCitas, editarCitas } from "../../Src/Servicios/CitasService";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import * as Notifications from 'expo-notifications';
 
 export default function CrearCita() {
   // Navegación y parámetros
@@ -85,6 +86,14 @@ const [hora, setHora] = useState(() => {
 // Manejo de la respuesta
       if (result?.success) {
         Alert.alert("Éxito", `Cita ${esEdicion ? "Actualizada" : "creada"} correctamente`);
+        await Notifications.scheduleNotificationAsync({
+          content: {
+            title: "Cita Programada", 
+            body: `Cita ${esEdicion ? "actualizada" : "creada"} para el ${fecha} a las ${hora}`,
+          },
+          trigger: { seconds: 1 },
+        });
+
         navigation.goBack();
       } else {
         const errorMsg = typeof result.message === "object"

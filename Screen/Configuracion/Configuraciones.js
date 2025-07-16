@@ -1,10 +1,55 @@
-import React from "react";
-import {  View,  Text,  StyleSheet,  TouchableOpacity,  ScrollView,} from "react-native";
+import React, { useState, useEffect } from "react";
+import {  View,  Text,  StyleSheet,  TouchableOpacity,  ScrollView, Switch, Alert} from "react-native";
 import { MaterialIcons, AntDesign, Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Notifications from 'expo-notifications';
 
 export default function Configuracion() {
   const navigation = useNavigation();
+  const [permisoNotificaciones, setPermisoNotificaciones] = useState(false);
+  const [Loading,setLoading] = useState(true);
+
+// Estado para manejar los permisos de las notificaciones
+  useEffect(() => {
+    const chechPermisos = async () => {
+      const { status } = await Notifications.getPermissionsAsync();
+      const preferencia = await AsyncStorage.getItem('notificaciones_activas');
+      setPermisoNotificaciones(status === 'granted' && preferencia === 'true');
+      setLoading(false);
+    };
+    chechPermisos();
+  }, []);
+
+  if (Loading) {
+    return (
+      <View style={[{flex: 1, justifyContent: 'center', alignItems: 'center'}]}>
+        <Text>Cargando configuración...</Text>
+      </View>
+    );
+  }
+
+  const toogleSwitch = async (valor) => {
+    if(valor) {
+      const { status } = await Notifications.requestPermissionsAsync();
+      if (status === 'granted'){
+        await AsyncStorage.setItem('notificaciones_activas', 'true');
+        setPermisoNotificaciones(true);
+        Alert.alert("Notificaciones activadas", "Ahora recibirás notificaciones de citas.");
+      }else{
+        await AsyncStorage.setItem('notificaciones_activas', 'false');
+        setPermisoNotificaciones(false);
+        Alert.alert("Notificaciones desactivadas", "No recibirás notificaciones.");
+      }
+    }else{
+      await AsyncStorage.setItem('notificaciones_activas', 'false');
+      setPermisoNotificaciones(false);
+      Alert.alert("Desactivado",
+        "si quieres desactivar las notificaciones,hazlo desde la configuración ."
+      );
+    }
+
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -23,7 +68,12 @@ export default function Configuracion() {
         {/* Notificaciones */}
         <TouchableOpacity style={styles.option}>
           <MaterialIcons name="notifications-none" size={22} color="#1976D2" />
-          <Text style={styles.optionText}>Notificaciones</Text>
+          <Text style={styles.optionText}>
+            Notificaciones: {permisoNotificaciones ? 'Activadas' : 'Desactivadas'}</Text>
+          <Switch 
+          value={permisoNotificaciones}
+          onValueChange={toogleSwitch}
+          />
         </TouchableOpacity>
 
         {/* Privacidad */}
@@ -32,8 +82,6 @@ export default function Configuracion() {
           <Text style={styles.optionText}>Privacidad</Text>
         </TouchableOpacity>
 
-        {/* Modo oscuro desactivado visualmente */}
-   
       </View>
     </ScrollView>
   );

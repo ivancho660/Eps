@@ -2,6 +2,7 @@ import { View, Text, TextInput, StyleSheet, Alert, ActivityIndicator, ScrollView
 import BottonComponent from "../../Components/BottonComponent";
 import { useState } from "react";
 import { registerUser } from "../../Src/Servicios/AuthService";
+import { Picker } from "@react-native-picker/picker";
 
 export default function RegistroScreen({ navigation }) {
   // Estados para manejar los campos de entrada y el estado de carga
@@ -11,6 +12,7 @@ export default function RegistroScreen({ navigation }) {
   const [password, setPassword] = useState("");
   const [confirmarPassword, setConfirmarPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  
 // Función para manejar el registro del usuario
   const handleRegister = async () => {
     if (!name || !email || !rol || !password || !confirmarPassword) {
@@ -59,12 +61,14 @@ export default function RegistroScreen({ navigation }) {
         value={email}
         onChangeText={setEmail}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Rol"
-        value={rol}
-        onChangeText={setRol}
-      />
+      <Picker
+  selectedValue={rol}
+  onValueChange={(itemValue) => setRol(itemValue)}
+>
+  <Picker.Item label="Administrador" value="admin" />
+  <Picker.Item label="Usuario" value="user" />
+</Picker>
+
       <TextInput
         style={styles.input}
         placeholder="Contraseña"
