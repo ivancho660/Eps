@@ -3,6 +3,8 @@ import ListarPacientes from "../../../Screen/Pacientes/ListarPacientes";
 import DetallePaciente from "../../../Screen/Pacientes/DetallePaciente";
 import NuevoPaciente from "../../../Screen/Pacientes/NuevoPaciente";
 
+//componentes de la navegacion
+//importar los componentes de la navegacion
 const Stack = createStackNavigator();
 
 export default function ActividadesStack () {

@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-
+//retono a un componente funcional de React Native que muestra detalles de una especialidad médica
 export default function DetalleEspecialidad() {
   return (
     <View style={styles.container}>
@@ -10,7 +10,7 @@ export default function DetalleEspecialidad() {
     </View>
   );
 }
-
+// Stilos para el componente DetalleEspecialidad
 const styles = StyleSheet.create({
   container: {
     flex: 1,

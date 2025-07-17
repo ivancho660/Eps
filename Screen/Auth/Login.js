@@ -2,17 +2,18 @@ import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
 import BottonComponent from "../../Components/BottonComponent";
 import { useState } from "react";
 import { loginUser } from "../../Src/Servicios/AuthService";
-
+// Este componente representa la pantalla de inicio de sesión 
 export default function LoginScreen({ navigation }) {
   // Estados para manejar los campos de entrada y el estado de carga
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
+//funcion para manejar eñ inicio de sesion 
   const handleLogin = async () => {
     setLoading(true); // Indica que el proceso de login ha comenzado
     try {
-      const result = await loginUser(email, password);
+      const result = await loginUser(email, password);// Llama al servicio de autenticación para iniciar sesión
+      // Si el login es exitoso, muestra un mensaje de éxito
       if (result.success) {
         Alert.alert("Éxito", "¡Bienvenido!", [
           {
@@ -35,7 +36,7 @@ export default function LoginScreen({ navigation }) {
       setLoading(false);
     }
   };
-
+//retorno con sus respectivos inputs y botones donde usamos las variables de estado
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Iniciar Sesión</Text>
@@ -78,7 +79,7 @@ export default function LoginScreen({ navigation }) {
     </View>
   );
 }
-
+// Estilos para el componente LoginScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,

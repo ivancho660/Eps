@@ -4,7 +4,8 @@ import DetalleConsultorios from "../../../Screen/Consultorios/DetalleConsultorio
 import NuevoConsultorios from "../../../Screen/Consultorios/NuevoConsultorios";
 
 const Stack = createStackNavigator();
-
+//componentes de la navegacion
+//importar los componentes de la navegacion
 export default function ActividadesStack() {
     return (
         <Stack.Navigator>

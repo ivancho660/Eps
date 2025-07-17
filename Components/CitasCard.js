@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-
+//componnete que muestra una tarjeta de citas con la información detallada
 export default function CitasCard({ citas, onEdit, onDelete, onView }) {
   return (
     <View style={styles.card}>
@@ -19,7 +19,7 @@ export default function CitasCard({ citas, onEdit, onDelete, onView }) {
           <Text style={styles.label}>🏥 Consultorio:</Text> {citas.consultorio?.numero || 'Sin consultorio'}
         </Text>
       </View>
-
+               {/* Botónes de acciones para editar eliminar y ver detalles de la cita */}
       <View style={styles.actions}>
         <TouchableOpacity onPress={onView} style={[styles.iconBtn, styles.viewBtn]}>
           <Ionicons name="eye-outline" size={20} color="#fff" />

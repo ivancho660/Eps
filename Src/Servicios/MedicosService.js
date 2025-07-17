@@ -13,7 +13,7 @@ export const listarMedicos = async () => {
         };
     }
 };
-
+// Función para eliminar un medico
 export const eliminarMedicos= async (id) =>{
 try {
     await api.delete(`/eliminarMedicos/${id}`);
@@ -26,7 +26,7 @@ try {
     };
 }
 };
-
+// Función para crear un nuevo medico
 export const crearMedicos = async (data) => {
     try {
         const response = await api.post('/crearMedicos', data);
@@ -41,7 +41,7 @@ export const crearMedicos = async (data) => {
         };
     }
 };
-
+// Función para editar un medico
 export const editarMedicos = async (id, data) => {
     try {
         const response = await api.put(`/editarMedicos/${id}`, data);

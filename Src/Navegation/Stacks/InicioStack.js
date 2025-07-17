@@ -9,7 +9,8 @@ import { Entypo, AntDesign, Feather } from '@expo/vector-icons';
 
 
 const Stack = createNativeStackNavigator();
-
+//componentes de la navegacion
+//importar los componentes de la navegacion
 export default function InicioStack() {
 
     return (

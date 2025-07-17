@@ -4,13 +4,13 @@ import { Ionicons } from "@expo/vector-icons";
 import CitasCard from "../../Components/CitasCard";
 import { useNavigation } from "@react-navigation/native";
 import { listarCitas, eliminarCitas } from "../../Src/Servicios/CitasService";
-
+// funcion que me lista las citas 
 export default function ListarCitas() {
   // Estados para manejar las citas y el estado de carga
   const [citas, setCitas] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
-// Función para obtener la lista de citas
+  // Función para obtener la lista de citas
   const handleCitas = async () => {
     setLoading(true);
     try {
@@ -26,12 +26,13 @@ export default function ListarCitas() {
       setLoading(false);
     }
   };
-// Efecto para cargar las citas al montar el componente y al enfocar la pantalla
+  // Efecto para cargar las citas al montar el componente y al enfocar la pantalla
+  //useEfect me ayuda a a ejecutar la funcion de handleCitas para que me recargue los datos 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", handleCitas);
     return unsubscribe;
   }, [navigation]);
-// Funciones para manejar las acciones de editar, crear, ver y eliminar citas
+  // Funciones para manejar las acciones de editar, crear, ver y eliminar citas
   const handleEditar = (citas) => {
     navigation.navigate("NuevaCitas", { citas });
   };
@@ -43,7 +44,7 @@ export default function ListarCitas() {
   const handleView = (citas) => {
     navigation.navigate("DetalleCitas", { citas });
   };
-// Función para manejar la eliminación de citas
+  // Función para manejar la eliminación de citas
   const handleEliminar = (id) => {
     Alert.alert("Eliminar Citas", "¿Estás seguro de eliminar esta cita?", [
       { text: "Cancelar", style: "cancel" },
@@ -65,17 +66,17 @@ export default function ListarCitas() {
       },
     ]);
   };
-// Mostrar un indicador de carga mientras se obtienen las citas
-if (loading) {
-  return (
-    <View style={styles.centered}>
-      <ActivityIndicator size="large" color="#1976D2" />
-      <Text style={styles.loadingText}>Cargando citas...</Text>
-    </View>
-  );
-}
+  // Mostrar un indicador de carga mientras se obtienen las citas
+  if (loading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color="#1976D2" />
+        <Text style={styles.loadingText}>Cargando citas...</Text>
+      </View>
+    );
+  }
 
-
+  //retorno los datos y utiliza el componente CitasCard para renderizar cada cita
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Listado de Citas</Text>
@@ -88,11 +89,11 @@ if (loading) {
           renderItem={({ item }) => (
             // Aquí se renderiza cada tarjeta de cita
             <CitasCard
-  citas={item}
-  onDelete={() => handleEliminar(item.id)}
-  onEdit={() => handleEditar(item)}
-  onView={() => handleView(item)} // Esto es clave
-/>
+              citas={item}
+              onDelete={() => handleEliminar(item.id)}
+              onEdit={() => handleEditar(item)}
+              onView={() => handleView(item)} // Esto es clave
+            />
 
           )}
         />
@@ -109,7 +110,7 @@ if (loading) {
     </View>
   );
 }
-
+// Estilos para el componente ListarCitas
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -166,10 +167,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   loadingText: {
-  marginTop: 15,
-  fontSize: 16,
-  color: "#1976D2",
-  fontWeight: "500",
-},
+    marginTop: 15,
+    fontSize: 16,
+    color: "#1976D2",
+    fontWeight: "500",
+  },
 
 });

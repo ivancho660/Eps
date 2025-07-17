@@ -14,7 +14,7 @@ export const listarCitas = async () => {
         };
     }
 };
-
+// Función para eliminar una cita
 export const eliminarCitas = async (id) => {
   try {
     await api.delete(`/eliminarCitas/${id}`);

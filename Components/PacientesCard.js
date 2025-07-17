@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-
+//componenete reutilizable para mostrar la información de un paciente con sus respectivos datos
 export default function PacientesCard({ pacientes, onEdit, onDelete }) {
   return (
     <View style={styles.card}>
@@ -16,7 +16,7 @@ export default function PacientesCard({ pacientes, onEdit, onDelete }) {
           {pacientes.telefono}
         </Text>
       </View>
-
+{/*botones del componente para editar y eliminar pacientes*/}
       <View style={styles.actions}>
         <TouchableOpacity onPress={onEdit} style={[styles.iconBtn, styles.editBtn]}>
           <Ionicons name="create-outline" size={20} color="#fff" />

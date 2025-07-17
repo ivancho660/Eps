@@ -4,7 +4,8 @@ import { Picker } from "@react-native-picker/picker";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { listarEspecialidades } from "../../Src/Servicios/EspecialidadesService";
 import { crearMedicos, editarMedicos } from "../../Src/Servicios/MedicosService";
-
+// Componente para registrar o editar médicos
+// constantes de navegación y rutas
 export default function NuevoMedico() {
   const navigation = useNavigation();
   const route = useRoute();
@@ -18,6 +19,7 @@ export default function NuevoMedico() {
 
   const esEdicion = !!medico;
 // Navegación y parámetros
+//funcion para cargar las especialidades al iniciar el componente
   useEffect(() => {
     const cargarEspecialidades = async () => {
       const result = await listarEspecialidades();
@@ -73,7 +75,8 @@ export default function NuevoMedico() {
       setLoading(false);
     }
   };
-
+// Renderizado del componente y utilizamos un picker para seleccionar la especialidad
+  // y campos de texto para nombre y documento
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
@@ -125,7 +128,7 @@ export default function NuevoMedico() {
     </View>
   );
 }
-
+// Estilos del componente
 const styles = StyleSheet.create({
   container: {
     flex: 1,

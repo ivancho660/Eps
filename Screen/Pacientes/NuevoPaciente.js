@@ -1,20 +1,13 @@
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-  Alert,
-  ActivityIndicator,
-} from "react-native";
+import {  View,  Text,  TextInput,  StyleSheet,  TouchableOpacity,  Alert,  ActivityIndicator,} from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { editarPacientes, crearPacientes } from "../../Src/Servicios/PacientesService";
-
+// Componente NuevoPaciente
+// Este componente permite crear o editar un paciente
 export default function NuevoPaciente() {
   const navigation = useNavigation();
   const route = useRoute();
-// Navegación y parámetros
+// Navegación y parámetros y etsados
   const pacientes = route.params?.pacientes;
   const [nombre, setNombre] = useState(pacientes?.nombre || "");
   const [documento, setDocumento] = useState(pacientes?.documento?.toString() || "");
@@ -29,6 +22,8 @@ export default function NuevoPaciente() {
       return;
     }
     // Validación de campos
+    // Verifica si el documento es un número válido
+    // y si el teléfono es un número válido
     setLoading(true);
     try {
       let result;
@@ -52,7 +47,8 @@ export default function NuevoPaciente() {
       setLoading(false);
     }
   };
-
+// Renderiza el formulario para crear o editar un paciente
+  // Incluye campos para nombre, documento y teléfono
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{esEdicion ? "Editar Paciente" : "Nuevo Paciente"}</Text>
@@ -91,7 +87,7 @@ export default function NuevoPaciente() {
     </View>
   );
 }
-
+// estilos del componente
 const styles = StyleSheet.create({
   container: {
     flex: 1,

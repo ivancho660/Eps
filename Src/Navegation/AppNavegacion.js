@@ -5,11 +5,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState, useEffect, useRef } from "react";
 import { ActivityIndicator, View, StyleSheet, AppState } from "react-native";
 
+// Importar los stacks de navegación
+// Aquí puedes importar los stacks que has creado
 export default function AppNavegacion() {
     const [isLoading, setIsLoading] = useState(true);
     const [userToken, setUserToken] = useState(null);
     const appState = useRef(AppState.currentState);
-
+// Crea una referencia para el estado de la aplicación
+    // y una variable de estado para el token del usuario
     const loadToken = async () => {
         try {
             const token = await AsyncStorage.getItem('userToken');
@@ -23,7 +26,8 @@ export default function AppNavegacion() {
     useEffect(() => {
         loadToken(); //Carga inicial del token
     }, []);
-
+// Carga el token al iniciar la aplicación
+    // y establece isLoading en false una vez que se ha cargado
     useEffect(() => {
         const handleAppStateChange = (nextAppState) => {
             if (appState.current.match(/inactive|background/) && nextAppState === 'active') {

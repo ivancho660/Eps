@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
+//componete que muestra una tarjeta de consultorios con la información detallada
 export default function ConsultoriosCard({ consultorios, onEdit, onDelete }) {
     return (
         <View style={styles.card}>
@@ -11,6 +12,7 @@ export default function ConsultoriosCard({ consultorios, onEdit, onDelete }) {
                 </View>
                 <Text style={styles.detalle}><Text style={styles.label}>🏢 Piso:</Text> {consultorios.piso}</Text>
             </View>
+               {/* Botónes de acciones para editar eliminar consultorios */}
 
             <View style={styles.actions}>
                 <TouchableOpacity onPress={onEdit} style={[styles.iconBtn, styles.editBtn]}>

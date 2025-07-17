@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet } from "react-native";
-
+//funcion para mostrar los detalles de una cita
 export default function DetalleCitas({ route }) {
   // Extraer los datos de la cita desde los parámetros de la ruta
   const { citas } = route.params;
-
+// Asegurarse de que citas tenga los datos necesarios
   return (
     <View style={styles.container}>
       <Text style={styles.title}>🗓️ Detalle de la Cita</Text>
@@ -24,7 +24,7 @@ export default function DetalleCitas({ route }) {
     </View>
   );
 }
-
+// estilos del componente
 const styles = StyleSheet.create({
   container: {
     flex: 1,

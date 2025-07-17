@@ -1,8 +1,8 @@
 import { View, Text, TextInput, StyleSheet, Alert, ActivityIndicator, ScrollView } from "react-native";
-import BottonComponent from "../../Components/BottonComponent";
 import { useState } from "react";
 import { registerUser } from "../../Src/Servicios/AuthService";
 import { Picker } from "@react-native-picker/picker";
+import BottonComponent from "../../Components/BottonComponent";
 
 export default function RegistroScreen({ navigation }) {
   // Estados para manejar los campos de entrada y el estado de carga
@@ -11,11 +11,13 @@ export default function RegistroScreen({ navigation }) {
   const [rol, setRol] = useState("");
   const [password, setPassword] = useState("");
   const [confirmarPassword, setConfirmarPassword] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [direccion, setDireccion] = useState("");
   const [loading, setLoading] = useState(false);
 
   // Función para manejar el registro del usuario
   const handleRegister = async () => {
-    if (!name || !email || !rol || !password || !confirmarPassword) {
+    if (!name || !email || !rol || !password || !confirmarPassword|| !telefono || !direccion) {
       Alert.alert("Campos requeridos", "Todos los campos son obligatorios.");
       return;
     }
@@ -26,8 +28,8 @@ export default function RegistroScreen({ navigation }) {
     }
     // Validación de contraseña
     setLoading(true);
-    try {
-      const result = await registerUser(name, email, rol, password, confirmarPassword);
+    try {// Llama al servicio de autenticación para registrar al usuario
+      const result = await registerUser(name, email, rol,telefono,direccion, password, confirmarPassword);
       if (result.success) {
         Alert.alert("Éxito", "¡Bienvenido!", [
           { text: "OK", onPress: () => console.log("Usuario registrado") },
@@ -42,7 +44,8 @@ export default function RegistroScreen({ navigation }) {
       setLoading(false);
     }
   };
-
+// Retorno del componente con sus respectivos inputs y botones y adicional un picker para seleccionar el rol
+  // donde usamos las variables de estado
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Registro</Text>
@@ -60,6 +63,20 @@ export default function RegistroScreen({ navigation }) {
         autoCapitalize="none"
         value={email}
         onChangeText={setEmail}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Telefono"
+        autoCapitalize="none"
+        value={telefono}
+        onChangeText={setTelefono}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder=" Dirección"
+        autoCapitalize="none"
+        value={direccion}
+        onChangeText={setDireccion}
       />
       <Picker
         selectedValue={rol}
@@ -100,7 +117,7 @@ export default function RegistroScreen({ navigation }) {
     </ScrollView>
   );
 }
-
+// Estilos para el componente RegistroScreen
 const styles = StyleSheet.create({
   container: {
     padding: 20,

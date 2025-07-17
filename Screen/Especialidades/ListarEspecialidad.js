@@ -4,7 +4,7 @@ import EspecialidadesCard from "../../Components/EspecialidadesCard";
 import { useNavigation } from "@react-navigation/native";
 import { listarEspecialidades, eliminarEspecialidades } from "../../Src/Servicios/EspecialidadesService";
 import { Ionicons } from "@expo/vector-icons";
-
+//funcion para listar especialidades y eliminar especialidades  
 export default function ListarPaciente() {
   // Estados para manejar las especialidades y el estado de carga
   const [especialidades, setEspecialidades] = useState([]);
@@ -57,11 +57,11 @@ export default function ListarPaciente() {
       ]
     );
   };
-
+// Función para manejar la navegación a la pantalla de edición de especialidades
   const handleEditar = (especialidades) => {
     navigation.navigate("NuevaEspecialidad", { especialidades });
   };
-
+// Función para manejar la navegación a la pantalla de creación de especialidades
   const handleCrear = () => {
     navigation.navigate("NuevaEspecialidad");
   };
@@ -74,7 +74,7 @@ export default function ListarPaciente() {
       </View>
     );
   }
-
+// retorno del componente ListarPaciente
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -111,7 +111,7 @@ export default function ListarPaciente() {
     </View>
   );
 }
-
+// Estilos para el componente ListarPaciente
 const styles = StyleSheet.create({
   container: {
     flex: 1,

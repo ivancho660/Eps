@@ -3,7 +3,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import InicioStack from "./Stacks/InicioStack";
 import PerfilStack from "./Stacks/PerfilStack";
 import ConfiguracionStack from "./Stacks/ConfiguracionStack";
-
+// Importar los stacks de navegación
+// Aquí puedes importar los stacks que has creado
 const Tab = createBottomTabNavigator();
 
 export default function NavegacionPrincipal() {

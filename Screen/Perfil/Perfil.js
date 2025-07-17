@@ -10,36 +10,49 @@ import { useNavigation } from '@react-navigation/native';
 
 
 
-
+// Componente para mostrar el perfil del usuario
+//  Este componente muestra la información del usuario, incluyendo su imagen de perfil, nombre, email, teléfono y dirección. También permite editar el perfil y cerrar sesión.
 
 export default function Perfil() {
   const [usuario, setUsuario] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
+// URL base de la API
+  // Puedes cambiar esta URL según tu configuración de backend
+  const BASE_URL = "http://172.30.5.127:8000";
 
-// Cargar el perfil del usuario al montar el componente
-  useEffect(() => {
-    const cargarPerfil = async () => {
-      try {
-        const token = await AsyncStorage.getItem("userToken");
-        if (!token) {
-          return;
-        }
+  // Cargar el perfil del usuario al montar el componente
 
-        const response = await api.get("/traerDatos");
-        setUsuario(response.data);
-      } catch (error) {
-        await AsyncStorage.removeItem("userToken");
-        Alert.alert("Error", "No se pudo cargar el perfil.");
-      } finally {
-        setLoading(false);
+
+   const cargarPerfil = async () => {
+    try {
+      setLoading(true);
+      const token = await AsyncStorage.getItem("userToken");
+      if (!token) {
+        console.log("No se encontró el token, redirigiendo al login...");
+        return;
       }
-    };
-// Llamar a la función para cargar el perfil
-     const unsubscribe = navigation.addListener("focus", cargarPerfil);
-  return unsubscribe;
-}, [navigation]);
 
+      const response = await api.get("/traerDatos");
+      setUsuario(response.data);
+    } catch (error) {
+      console.error("Error al cargar el perfil:", error);
+      Alert.alert("Error", "Ocurrió un error al cargar el perfil.");
+    } finally {
+      setLoading(false);
+    }
+  };
+//usamos useEffect para cargar el perfil cuando el componente se monta
+  // y también para recargarlo cuando la pantalla se enfoca
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      cargarPerfil();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+//función para manejar la edición del perfil
+//funciioon de cargar el perfil del usuario
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
@@ -47,7 +60,7 @@ export default function Perfil() {
       </View>
     );
   }
-// Si no hay usuario, mostrar un mensaje de error
+  // Si no hay usuario, mostrar un mensaje de error
   if (!usuario) {
     return (
       <View style={styles.container}>
@@ -59,23 +72,12 @@ export default function Perfil() {
     );
   }
 
-//   const handleEdit = async () => {
-//   try {
-//     const result = await editar(usuario.user); // envía los datos actualizados
-//     if (result.success) {
-//       Alert.alert("Éxito", "Perfil actualizado correctamente.");
-//     } else {
-//       Alert.alert("Error", result.message || "No se pudo actualizar el perfil.");
-//     }
-//   } catch (error) {
-//     Alert.alert("Error", "Error al actualizar el perfil.");
-//   }
-// };
-
-
-    const handleEditar = (user) => {
+// Función para manejar la edición del perfil
+  const handleEditar = (user) => {
     navigation.navigate("EditarPerfil", { user: user });
   };
+
+// Renderizado del perfil del usuario
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Perfil de Usuario</Text>
@@ -84,22 +86,13 @@ export default function Perfil() {
         {/* Imagen de perfil circular */}
         <View style={styles.avatarContainer}>
           <Image
-            source={{ uri: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png" }}
-            style={styles.avatar}
-          />
+                    source={{
+                      uri: `${BASE_URL}/storage/usuarios/imagenes/${usuario.user.imagen}`,
+                    }}
+                    style={styles.avatar}
+                  />
         </View>
-{/* <Text style={styles.label}>👤 Nombre:</Text>
-<TextInput
-  style={styles.input}
-  placeholder="Nombre"
-  value={usuario.user.name}
-  onChangeText={(text) =>
-    setUsuario((prev) => ({
-      ...prev,
-      user: { ...prev.user, name: text },
-    }))
-  }
-/> */}
+
 
         <Text style={styles.profileText}>
           <Text style={styles.input}>👤 Nombre:</Text> {usuario.user.name || "No disponible"}
@@ -107,20 +100,21 @@ export default function Perfil() {
         <Text style={styles.profileText}>
           <Text style={styles.label}>📧 Email:</Text> {usuario.user.email || "No disponible"}
         </Text>
+        <Text style={styles.profileText}>
+          <Text style={styles.label}>📧 Telefono:</Text> {usuario.user.telefono || "No disponible"}
+        </Text>
+        <Text style={styles.profileText}>
+          <Text style={styles.label}>📧 Dirección:</Text> {usuario.user.direccion || "No disponible"}
+        </Text>
 
         <View style={styles.buttons}>
 
-          {/* <BottonComponent
-  title="Editar nombre"
-  onPress={() => handleEdit(usuario.user)} // ✅ así pasas los datos
-  style={styles.editBtn}
-/> */}
 
-           <BottonComponent
-  title="Editar Perfil"
-  onPress={() => handleEditar(usuario.user)} // ✅ así pasas los datos
-  style={styles.editBtn}
-/>
+          <BottonComponent
+            title="Editar Perfil"
+            onPress={() => handleEditar(usuario.user)} // ✅ así pasas los datos
+            style={styles.editBtn}
+          />
 
 
           <BottonComponent
@@ -136,6 +130,10 @@ export default function Perfil() {
   );
 }
 
+
+
+
+// Estilos para el componente Perfil
 const styles = StyleSheet.create({
   container: {
     flex: 1,

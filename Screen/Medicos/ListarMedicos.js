@@ -4,7 +4,9 @@ import { Ionicons } from "@expo/vector-icons";
 import MedicosCard from "../../Components/MedicosCard";
 import { useNavigation } from "@react-navigation/native";
 import { listarMedicos, eliminarMedicos } from "../../Src/Servicios/MedicosService";
-
+// Importar los servicios necesarios para manejar los médicos
+//funcuon para listar y eliminar médicos
+//con sus variables de estado y navegación
 export default function ListarMedicos() {
   const [medico, setMedico] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -42,7 +44,8 @@ export default function ListarMedicos() {
   const handleView = (medico) => {
     navigation.navigate("DetalleMedico", { medico });
   };
-
+// Función para eliminar un médico con confirmación
+  // Muestra una alerta de confirmación antes de eliminar un médico
   const handleEliminar = (id) => {
     Alert.alert("Eliminar Médico", "¿Estás seguro de eliminar este médico?", [
       { text: "Cancelar", style: "cancel" },
@@ -102,7 +105,7 @@ export default function ListarMedicos() {
       </View>
     );
   }
-
+//retonamos la vista principal con la lista de médicos
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -137,7 +140,7 @@ export default function ListarMedicos() {
     </View>
   );
 }
-
+// Estilos para la pantalla de listar médicos
 const styles = StyleSheet.create({
   container: {
     flex: 1,

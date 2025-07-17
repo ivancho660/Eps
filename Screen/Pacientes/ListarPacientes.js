@@ -4,7 +4,8 @@ import PacientesCard from "../../Components/PacientesCard";
 import { useNavigation } from "@react-navigation/native";
 import { listarPacientes, eliminarPacientes } from "../../Src/Servicios/PacientesService";
 import { Ionicons } from "@expo/vector-icons";
-
+//componente  de listar pacientes con sus respectivos estados y funciones
+// Este componente muestra una lista de pacientes y permite crear, editar y eliminar pacientes
 export default function ListarPaciente() {
   const [pacientes, setPacientes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -52,11 +53,11 @@ export default function ListarPaciente() {
       },
     ]);
   };
-
+//función para manejar la edición de un paciente
   const handleEditar = (paciente) => {
     navigation.navigate("NuevoPaciente", { pacientes: paciente });
   };
-
+// Función para manejar la creación de un nuevo paciente
   const handleCrear = () => {
     navigation.navigate("NuevoPaciente");
   };
@@ -69,7 +70,9 @@ export default function ListarPaciente() {
       </View>
     );
   }
-
+//retorna la vista principal del componente con la lista de pacientes utilizamos un flatlist para mostrar los pacientes
+// y un botón para crear un nuevo paciente
+//y el componente PacientesCard para mostrar cada paciente
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -103,7 +106,7 @@ export default function ListarPaciente() {
     </View>
   );
 }
-
+// estilos del componente
 const styles = StyleSheet.create({
   container: {
     flex: 1,

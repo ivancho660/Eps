@@ -2,7 +2,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Perfil from '../../../Screen/Perfil/Perfil';
 import EditarPerfil from '../../../Screen/Perfil/EditarPerfil';
 
-
+//componentes de la navegacion
+//importar los componentes de la navegacion
 const  Stack = createNativeStackNavigator();
 
 export default function PerfilStack() {

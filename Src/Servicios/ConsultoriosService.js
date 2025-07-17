@@ -14,7 +14,7 @@ export const listarConsultorios = async () => {
         };
     }
 };
-
+// Función para editar un consultorio
 export const eliminarConsultorios= async (id) =>{
 try {
     await api.delete(`/eliminarConsultorios/${id}`);
@@ -27,7 +27,7 @@ try {
     };
 }
 };
-
+// Función para crear un nuevo consultorio
 export const crearConsultorios = async (data) => {
     try {
         const response = await api.post('/crearConsultorios', data);
@@ -42,7 +42,7 @@ export const crearConsultorios = async (data) => {
         };
     }
 };
-
+// Función para editar un consultorio
 export const editarConsultorios = async (id, data) => {
     try {
         const response = await api.put(`/editarConsultorios/${id}`, data);

@@ -1,15 +1,9 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
+//componente de medicos para mostrar la información de un medico con sus respectivos datos 
 export default function MedicosCard({ medico, onEdit, onDelete }) {
-  // if (!medico) {
-  //   return (
-  //     <View style={styles.card}>
-  //       <Text style={styles.detalle}>❌ Información del médico no disponible</Text>
-  //     </View>
-  //   );
-  // }
-
+ 
   return (
     <View style={styles.card}>
       <View style={styles.info}>
@@ -23,7 +17,7 @@ export default function MedicosCard({ medico, onEdit, onDelete }) {
           <Text style={styles.label}>🩺 Especialidad:</Text> {medico?.especialidad?.nombre || 'Sin especialidad'}
         </Text>
       </View>
-
+{/*botones para editar y eliminar el medico*/}
       <View style={styles.actions}>
         <TouchableOpacity onPress={onEdit} style={[styles.iconBtn, styles.editBtn]}>
           <Ionicons name="create-outline" size={20} color="#fff" />
@@ -35,7 +29,8 @@ export default function MedicosCard({ medico, onEdit, onDelete }) {
     </View>
   );
 }
-
+//
+// Estilos para el componente MedicosCard
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#fdfdfd',

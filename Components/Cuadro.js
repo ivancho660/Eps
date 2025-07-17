@@ -1,13 +1,8 @@
 import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-export default function Cuadro({
-    title,
-    onPress,
-    iconName,
-    style,
-    iconColor = "#1976D2",
-    backgroundColor = "#ffffff",
+// Componente Cuadro que muestra un botón con un ícono y un texto
+export default function Cuadro({    title,    onPress,    iconName,    style,    iconColor = "#1976D2",    backgroundColor = "#ffffff",
 }) {
     return (
         <TouchableOpacity
@@ -22,7 +17,7 @@ export default function Cuadro({
         </TouchableOpacity>
     );
 }
-
+// Estilos del componente Cuadro
 const styles = StyleSheet.create({
     button: {
         width: 140,

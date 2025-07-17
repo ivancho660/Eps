@@ -4,7 +4,8 @@ import DetalleEspecialidad from "../../../Screen/Especialidades/DetalleEspeciali
 import NuevaEspecialidad from "../../../Screen/Especialidades/NuevaEspecialidad";
 
 const Stack = createStackNavigator();
-
+//componentes de la navegacion
+//importar los componentes de la navegacion
 export default function ActividadesStack() {
     return (
         <Stack.Navigator>

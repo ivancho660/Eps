@@ -1,146 +1,136 @@
-import {  View,  Text,  TextInput,  StyleSheet,  TouchableOpacity,  Alert,  ActivityIndicator,} from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { useState } from "react";
-import { editar} from "../../Src/Servicios/AuthService";
+import React, { useState } from "react";
+import {  View,  Text,  TextInput,  StyleSheet,  Alert,  Pressable,  ScrollView,  Image,} from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import { actualizarPerfil } from "../../Src/Servicios/AuthService"; // servicio externo
 
-export default function EditarPerfil() {
-  const navigation = useNavigation();
-  const route = useRoute();
-// Navegación y parámetros
-  const user = route.params?.user;
-  const [name, setName] = useState(user?.name || "");
-  const [email, setEmail] = useState(user?.email?.toString() || "");
-  const [loading, setLoading] = useState(false);
 
-  const esEdicion = !!user;
-// Función que verifica si estamos en modo edición y función para guardar los datos
-  const handleGuardar = async () => {
-    if (!name || !email ) {
-      Alert.alert("Campos requeridos", "Todos los campos son obligatorios");
+
+//componente para editar perfil de usuario
+export default function EditarPerfil({ route, navigation }) {
+  const { user } = route.params;
+//parametros de usuario pasados desde la pantalla anterior
+  const [name, setName] = useState(user.name);
+  const [email, setEmail] = useState(user.email);
+  const [telefono, setTelefono] = useState(user.telefono || "");
+  const [direccion, setDireccion] = useState(user.direccion || "");
+// estado para manejar la imagen del usuario
+  const [imagen, setImagen] = useState(
+    user.imagen ? `http://172.30.5.127:8000/storage/usuarios/imagenes/${user.imagen}` : null
+  );
+  const [imagenBase64, setImagenBase64] = useState(null);
+
+  const seleccionarImagen = async () => {
+    const permiso = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permiso.granted) {
+      Alert.alert("Permiso requerido", "Se necesita permiso para acceder a tus imágenes.");
       return;
     }
-    // Validación de campos
-    setLoading(true);
-    try {
-      let result;
-      if (esEdicion) {
-        result = await editar(user.id, { name, email });
-      } else {
-        Alert.alert("Error", "No se puede editar el usuario desde aquí");
-      }
-      if (result.success) {
-        Alert.alert(
-          "Éxito",
-          esEdicion ? "usuario actualizado correctamente": ""
-        );
-        navigation.goBack();
-      } else {
-        Alert.alert("Error", result.message || "Ocurrió un error al guardar el usuario");
-      }
-    } catch (error) {
-      Alert.alert("Error", "No se pudo guardar el usuario. Inténtalo más tarde.");
-    } finally {
-      setLoading(false);
+// Abrir la galería de imágenes
+    const resultado = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      base64: true,
+      quality: 0.7,
+    });
+
+    if (!resultado.canceled) {
+      const uri = resultado.assets[0].uri;
+      const base64 = resultado.assets[0].base64;
+      setImagen(uri);
+      setImagenBase64(base64);
     }
   };
-  if (loading) {
-    return (
-      <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#1976D2" />
-        <Text style={styles.loadingText}>Cargando citas...</Text>
-      </View>
-    );
-  }
+// Función para manejar la actualización del perfil
+  const handleActualizar = async () => {
+    const payload = {
+      name,
+      email,
+      telefono,
+      direccion,
+    };
 
+    if (imagenBase64) {
+      payload.imagen = imagenBase64;
+    }
+
+    const response = await actualizarPerfil(payload);
+
+    if (response.success) {
+      Alert.alert("Éxito", "Perfil actualizado correctamente", [
+        {
+          text: "OK",
+          onPress: () => navigation.goBack(),
+        },
+      ]);
+    } else {
+      Alert.alert("Error", response.message || "Error al actualizar");
+    }
+  };
+// Renderizado del componente
+// Este componente permite al usuario editar su perfil, incluyendo su imagen, nombre, correo electrónico, teléfono y dirección.
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{esEdicion ? "Editar usuario" : "Nuevo usuario"}</Text>
-      <View style={styles.headerLine} />
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.title}>Editar Perfil</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Nombre"
-        value={name}
-        onChangeText={setName}
-      /> 
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        // keyboardType="numeric"
-      />
- 
+      {imagen && (
+        <Image
+          source={{ uri: imagen }}
+          style={styles.avatar}
+        />
+      )}
 
-      <TouchableOpacity style={styles.boton} onPress={handleGuardar} disabled={loading}>
-        {loading ? (
-          <ActivityIndicator color="#fff" />
-        ) : (
-          <Text style={styles.textoBoton}>
-            {esEdicion ? "Guardar Cambios" : "Crear usuario"}
-          </Text>
-        )}
-      </TouchableOpacity>
-    </View>
+      <Pressable style={[styles.button, { backgroundColor: "#007bff" }]} onPress={seleccionarImagen}>
+        <Text style={styles.buttonText}>Cambiar Imagen</Text>
+      </Pressable>
+
+      <TextInput style={styles.input} value={name} onChangeText={setName} placeholder="Nombre" />
+      <TextInput style={styles.input} value={email} onChangeText={setEmail} placeholder="Correo" keyboardType="email-address" />
+      <TextInput style={styles.input} value={telefono} onChangeText={setTelefono} placeholder="Teléfono" keyboardType="phone-pad" />
+      <TextInput style={styles.input} value={direccion} onChangeText={setDireccion} placeholder="Dirección" />
+
+      <Pressable style={[styles.button, { backgroundColor: "#28a745" }]} onPress={handleActualizar}>
+        <Text style={styles.buttonText}>Guardar Cambios</Text>
+      </Pressable>
+    </ScrollView>
   );
 }
-
+// Estilos para el componente EditarPerfil
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#E3F2FD",
-    paddingHorizontal: 20,
-    paddingTop: 30,
+    padding: 20,
+    flexGrow: 1,
+    backgroundColor: "#f0f0f0",
+    alignItems: "center",
   },
   title: {
-    fontSize: 26,
+    fontSize: 24,
     fontWeight: "bold",
-    color: "#0D47A1",
-    backgroundColor: "#BBDEFB",
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 12,
-    textAlign: "center",
-    elevation: 3,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    marginBottom: 10,
-  },
-  headerLine: {
-    height: 3,
-    width: "40%",
-    backgroundColor: "#1976D2",
-    borderRadius: 5,
-    alignSelf: "center",
     marginBottom: 20,
+    textAlign: "center",
+  },
+  avatar: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    marginBottom: 15,
   },
   input: {
-    height: 50,
-    borderColor: "#90CAF9",
-    borderWidth: 1.5,
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    marginBottom: 15,
     backgroundColor: "#fff",
-    fontSize: 16,
+    padding: 15,
+    marginBottom: 15,
+    borderRadius: 8,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    width: "100%",
   },
-  boton: {
-    backgroundColor: "#1976D2",
-    paddingVertical: 15,
-    borderRadius: 14,
+  button: {
+    padding: 15,
+    borderRadius: 8,
     alignItems: "center",
-    marginTop: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4.5,
-    elevation: 6,
+    marginTop: 10,
+    width: "100%",
   },
-  textoBoton: {
+  buttonText: {
     color: "#fff",
-    fontSize: 16,
     fontWeight: "bold",
   },
 });

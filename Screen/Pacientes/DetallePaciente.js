@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
-
+// Componente DetallePaciente
+// Este componente muestra los detalles de un paciente específico
 export default function DetallePaciente() {
   return (
     <View style={styles.container}>
@@ -11,8 +12,7 @@ export default function DetallePaciente() {
       </View>
     </View>
   );
-}
-
+}// estilos del componente
 const styles = StyleSheet.create({
   container: {
     flex: 1,

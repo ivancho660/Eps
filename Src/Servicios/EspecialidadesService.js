@@ -14,7 +14,7 @@ export const listarEspecialidades = async () => {
         };
     }
 };
-
+// Función para eliminar una especialidad
 export const eliminarEspecialidades= async (id) =>{
 try {
     await api.delete(`/eliminarEspecialidad/${id}`);
@@ -27,7 +27,7 @@ try {
     };
 }
 };
-
+// Función para crear una nueva especialidad
 export const crearEspecialidades = async (data) => {
     try {
         const response = await api.post('/crearEspecialidad', data);
@@ -42,7 +42,7 @@ export const crearEspecialidades = async (data) => {
         };
     }
 };
-
+// Función para editar una especialidad
 export const editarEspecialidades = async (id, data) => {
     try {
         const response = await api.put(`/editarEspecialidad/${id}`, data);

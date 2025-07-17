@@ -2,12 +2,15 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-
+// Componente para mostrar los detalles de un médico
+// Incluye un botón para volver a la pantalla anterior
 export default function DetalleMedico() {
   const route = useRoute();
   const navigation = useNavigation();
   const { medico } = route.params || {};
 // Obtenemos los datos del médico desde los parámetros de la ruta
+  // Si no hay datos del médico, mostramos un mensaje de error
+
   // Si no hay datos del médico, mostramos un mensaje de error
   if (!medico) {
     return (
@@ -16,6 +19,8 @@ export default function DetalleMedico() {
       </View>
     );
   }
+//retornamos la vista con los detalles del médico
+  // Mostramos el nombre, documento y especialidad del médico
 
   return (
     <View style={styles.container}>
@@ -44,7 +49,7 @@ export default function DetalleMedico() {
     </View>
   );
 }
-
+// Estilos para el componente DetalleMedico
 const styles = StyleSheet.create({
   container: {
     flex: 1,

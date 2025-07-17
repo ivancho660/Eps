@@ -3,7 +3,8 @@ import Configuracion from '../../../Screen/Configuracion/Configuraciones';
 
 
 const  Stack = createNativeStackNavigator();
-
+//componentes de la navegacion
+//importar los componentes de la navegacion
 export default function ConfiguracionStack() {
 
     return (

@@ -3,15 +3,16 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { editarEspecialidades, crearEspecialidades } from "../../Src/Servicios/EspecialidadesService";
-
+//funcion que importa los servicios de especialidades para editar o crear una nueva especialidad
 export default function NuevoEspecialidad() {
   const navigation = useNavigation();
   const route = useRoute();
 // Navegación y parámetros
+//
   const especialidades = route.params?.especialidades;
   const [nombre, setNombre] = useState(especialidades?.nombre || '');
   const [loading, setLoading] = useState(false);
-
+// Estado para manejar el nombre y el estado de carga
   const esEdicion = !!especialidades;
 //funcion que verifica si estamos en modo edición y funcon para guardar los datos
   const handleGuardar = async () => {
@@ -51,7 +52,7 @@ export default function NuevoEspecialidad() {
       </View>
     );
   }
-
+//retorno del componnete 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
@@ -78,7 +79,7 @@ export default function NuevoEspecialidad() {
     </View>
   );
 }
-
+// Estilos del componente
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -4,7 +4,8 @@ import DetalleMedico from "../../../Screen/Medicos/DetalleMedico";
 import NuevoMedico from "../../../Screen/Medicos/NuevoMedico";
 
 const Stack = createStackNavigator();
-
+//componentes de la navegacion
+//importar los componentes de la navegacion
 export default function ActividadesStack () {
     return (
         <Stack.Navigator>

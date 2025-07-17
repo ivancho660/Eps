@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-
+// componente reutilizable para mostrar la información de un usuario con sus respectivos datos
 export default function UserCard({ user, onEdit  }) {
   return (
     <View style={styles.card}>
@@ -12,7 +12,7 @@ export default function UserCard({ user, onEdit  }) {
           <Text style={styles.label}>🪪 email: </Text>{user?.email}
         </Text>
       </View>
-
+{/* botones del componente para editar el usuario */}
       <View style={styles.actions}>
         <TouchableOpacity onPress={onEdit} style={[styles.iconBtn, styles.editBtn]}>
              <Text style={styles.label}>🪪 email: </Text>{user?.email}
@@ -21,7 +21,7 @@ export default function UserCard({ user, onEdit  }) {
     </View>
   );
 }
-
+// Estilos para el componente UserCard
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#fdfdfd',

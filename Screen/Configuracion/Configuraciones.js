@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Notifications from 'expo-notifications';
 
+// Este componente permite al usuario configurar su perfil, notificaciones y privacidad
 export default function Configuracion() {
   const navigation = useNavigation();
   const [permisoNotificaciones, setPermisoNotificaciones] = useState(false);
@@ -20,7 +21,7 @@ export default function Configuracion() {
     };
     chechPermisos();
   }, []);
-
+// useEffect para verificar los permisos de notificaciones al cargar el componente
   if (Loading) {
     return (
       <View style={[{flex: 1, justifyContent: 'center', alignItems: 'center'}]}>
@@ -28,7 +29,8 @@ export default function Configuracion() {
       </View>
     );
   }
-
+// Función para manejar el cambio del switch de notificaciones
+  // Si el usuario activa las notificaciones, se solicita permiso y se guarda la preferencia
   const toogleSwitch = async (valor) => {
     if(valor) {
       const { status } = await Notifications.requestPermissionsAsync();
@@ -50,7 +52,8 @@ export default function Configuracion() {
     }
 
   };
-
+// Renderizado del componente Configuracion
+  // Contiene opciones para Perfil, Notificaciones y Privacidad
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>⚙️ Configuración</Text>
@@ -86,7 +89,7 @@ export default function Configuracion() {
     </ScrollView>
   );
 }
-
+// Estilos del componente Configuracion
 const styles = StyleSheet.create({
   container: {
     padding: 20,

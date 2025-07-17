@@ -14,7 +14,7 @@ export const listarPacientes = async () => {
         };
     }
 };
-
+// Función para eliminar un paciente
 export const eliminarPacientes= async (id) =>{
 try {
     await api.delete(`/eliminarPacientes/${id}`);
@@ -27,7 +27,7 @@ try {
     };
 }
 };
-
+// Función para crear un nuevo paciente
 export const crearPacientes = async (data) => {
     try {
         const response = await api.post('/crearPacientes', data);
@@ -42,7 +42,7 @@ export const crearPacientes = async (data) => {
         };
     }
 };
-
+// Función para editar un paciente
 export const editarPacientes = async (id, data) => {
     try {
         const response = await api.put(`/editarPacientes/${id}`, data);

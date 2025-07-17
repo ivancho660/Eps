@@ -1,7 +1,9 @@
 import { View, ScrollView, StyleSheet, Text } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import Cuadro from "../../Components/Cuadro";
-
+//funcion Inicio que representa la pantalla de inicio de la aplicación
+// se importa el componenete de cuadro que se utiliza para crear los cuadros de navegación y poder vijar a 
+// las diferentes pantallas de la aplicación
 export default function Inicio({ navigation }) {
     return (
         <ScrollView style={styles.container}>
@@ -52,6 +54,7 @@ export default function Inicio({ navigation }) {
         </ScrollView>
     );
 }
+//EStilos para la pantalla de inicio
 
 const styles = StyleSheet.create({
     container: {

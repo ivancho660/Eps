@@ -9,6 +9,7 @@ import { crearCitas, editarCitas } from "../../Src/Servicios/CitasService";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as Notifications from 'expo-notifications';
 
+// Esta función maneja la creación y edición de citas en la aplicación móvil
 export default function CrearCita() {
   // Navegación y parámetros
   const navigation = useNavigation();
@@ -40,7 +41,7 @@ const [hora, setHora] = useState(() => {
   const [mostrarPickerHora, setMostrarPickerHora] = useState(false);
   const [mostrarPickerFecha, setMostrarPickerFecha] = useState(false);
 
-  // Cargar datos
+  // función para cargar los datos iniciales de pacientes, médicos y consultorios
   useEffect(() => {
     const cargarDatos = async () => {
       const resPacientes = await listarPacientes();
@@ -93,7 +94,7 @@ const [hora, setHora] = useState(() => {
           },
           trigger: { seconds: 1 },
         });
-
+// Navegar hacia atrás después de guardar renderiando la lista de citas
         navigation.goBack();
       } else {
         const errorMsg = typeof result.message === "object"
@@ -127,7 +128,7 @@ const [hora, setHora] = useState(() => {
       setHora(`${horas}:${minutos}`);
     }
   };
-
+// retorno del componente que me renderiza la vista de creación o edición de citas
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{esEdicion ? "Editar Cita" : "Nueva Cita"}</Text>
@@ -188,7 +189,7 @@ const [hora, setHora] = useState(() => {
         style={styles.saveButton}
         onPress={handleGuardar}
         disabled={loading}
-      >
+      >{/* Mostrar indicador de carga si está guardando*/}
         {loading ? (
           <ActivityIndicator color="#fff" />
         ) : (
@@ -200,7 +201,7 @@ const [hora, setHora] = useState(() => {
     </View>
   );
 }
-
+// Estilos para el componente
 const styles = StyleSheet.create({
   container: {
     flex: 1,

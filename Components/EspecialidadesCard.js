@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-
+//componente para mostrar una tarjeta de especialidades
 export default function EspecialidadesCard({ especialidades, onEdit, onDelete }) {
   return (
     <View style={styles.card}>
@@ -11,7 +11,7 @@ export default function EspecialidadesCard({ especialidades, onEdit, onDelete })
       <View style={styles.info}>
         <Text style={styles.nombre}>👨‍⚕️ {especialidades.nombre} 🩺</Text>
       </View>
-
+{/*botones de editar y eliminar*/}
       <View style={styles.actions}>
         <TouchableOpacity onPress={onEdit} style={styles.iconBtn}>
           <Ionicons name="create-outline" size={24} color="#1976D2" />
@@ -23,7 +23,7 @@ export default function EspecialidadesCard({ especialidades, onEdit, onDelete })
     </View>
   );
 }
-
+// Estilos para el componente EspecialidadesCard
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#F9FAFB',
