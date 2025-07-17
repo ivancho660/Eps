@@ -12,7 +12,8 @@ export default function PacientesCard({ pacientes, onEdit, onDelete }) {
           <Text style={styles.label}>🪪 Documento: </Text>{pacientes.documento}
         </Text>
         <Text style={styles.detalle}>
-          <Text style={styles.label}>📞 Teléfono: </Text>{pacientes.telefono}
+          <Text style={styles.label}>📞 Teléfono: </Text>
+          {pacientes.telefono}
         </Text>
       </View>
 

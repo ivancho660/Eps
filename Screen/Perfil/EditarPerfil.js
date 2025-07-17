@@ -1,30 +1,21 @@
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-  Alert,
-  ActivityIndicator,
-} from "react-native";
+import {  View,  Text,  TextInput,  StyleSheet,  TouchableOpacity,  Alert,  ActivityIndicator,} from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
-import { editarPacientes, crearPacientes } from "../../Src/Servicios/PacientesService";
+import { editar} from "../../Src/Servicios/AuthService";
 
-export default function NuevoPaciente() {
+export default function EditarPerfil() {
   const navigation = useNavigation();
   const route = useRoute();
 // Navegación y parámetros
-  const pacientes = route.params?.pacientes;
-  const [nombre, setNombre] = useState(pacientes?.nombre || "");
-  const [documento, setDocumento] = useState(pacientes?.documento?.toString() || "");
-  const [telefono, setTelefono] = useState(pacientes?.telefono || "");
+  const user = route.params?.user;
+  const [name, setName] = useState(user?.name || "");
+  const [email, setEmail] = useState(user?.email?.toString() || "");
   const [loading, setLoading] = useState(false);
 
-  const esEdicion = !!pacientes;
+  const esEdicion = !!user;
 // Función que verifica si estamos en modo edición y función para guardar los datos
   const handleGuardar = async () => {
-    if (!nombre || !documento || !telefono) {
+    if (!name || !email ) {
       Alert.alert("Campos requeridos", "Todos los campos son obligatorios");
       return;
     }
@@ -33,58 +24,60 @@ export default function NuevoPaciente() {
     try {
       let result;
       if (esEdicion) {
-        result = await editarPacientes(pacientes.id, { nombre, documento, telefono });
+        result = await editar(user.id, { name, email });
       } else {
-        result = await crearPacientes({ nombre, documento, telefono });
+        Alert.alert("Error", "No se puede editar el usuario desde aquí");
       }
       if (result.success) {
         Alert.alert(
           "Éxito",
-          esEdicion ? "Paciente actualizado correctamente" : "Paciente creado correctamente"
+          esEdicion ? "usuario actualizado correctamente": ""
         );
         navigation.goBack();
       } else {
-        Alert.alert("Error", result.message || "Ocurrió un error al guardar el paciente");
+        Alert.alert("Error", result.message || "Ocurrió un error al guardar el usuario");
       }
     } catch (error) {
-      Alert.alert("Error", "No se pudo guardar el paciente. Inténtalo más tarde.");
+      Alert.alert("Error", "No se pudo guardar el usuario. Inténtalo más tarde.");
     } finally {
       setLoading(false);
     }
   };
+  if (loading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color="#1976D2" />
+        <Text style={styles.loadingText}>Cargando citas...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{esEdicion ? "Editar Paciente" : "Nuevo Paciente"}</Text>
+      <Text style={styles.title}>{esEdicion ? "Editar usuario" : "Nuevo usuario"}</Text>
       <View style={styles.headerLine} />
 
       <TextInput
         style={styles.input}
         placeholder="Nombre"
-        value={nombre}
-        onChangeText={setNombre}
+        value={name}
+        onChangeText={setName}
       /> 
       <TextInput
         style={styles.input}
-        placeholder="Documento"
-        value={documento}
-        onChangeText={setDocumento}
-        keyboardType="numeric"
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+        // keyboardType="numeric"
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Teléfono"
-        value={telefono}
-        onChangeText={setTelefono}
-        keyboardType="phone-pad"
-      />
+ 
 
       <TouchableOpacity style={styles.boton} onPress={handleGuardar} disabled={loading}>
         {loading ? (
           <ActivityIndicator color="#fff" />
         ) : (
           <Text style={styles.textoBoton}>
-            {esEdicion ? "Guardar Cambios" : "Crear Paciente"}
+            {esEdicion ? "Guardar Cambios" : "Crear usuario"}
           </Text>
         )}
       </TouchableOpacity>

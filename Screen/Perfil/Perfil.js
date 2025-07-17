@@ -1,13 +1,22 @@
-import { View, Text, StyleSheet, ActivityIndicator, Alert, Image } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator, Alert, Image, TextInput } from "react-native";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BottonComponent from "../../Components/BottonComponent";
 import api from "../../Src/Servicios/Conexion";
 import { LogoutUser } from "../../Src/Servicios/AuthService";
+import { editar } from "../../Src/Servicios/AuthService";
+import { useNavigation } from '@react-navigation/native';
+
+
+
+
+
 
 export default function Perfil() {
   const [usuario, setUsuario] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigation = useNavigation();
+
 // Cargar el perfil del usuario al montar el componente
   useEffect(() => {
     const cargarPerfil = async () => {
@@ -27,8 +36,9 @@ export default function Perfil() {
       }
     };
 // Llamar a la función para cargar el perfil
-    cargarPerfil();
-  }, []);
+     const unsubscribe = navigation.addListener("focus", cargarPerfil);
+  return unsubscribe;
+}, [navigation]);
 
   if (loading) {
     return (
@@ -49,6 +59,23 @@ export default function Perfil() {
     );
   }
 
+//   const handleEdit = async () => {
+//   try {
+//     const result = await editar(usuario.user); // envía los datos actualizados
+//     if (result.success) {
+//       Alert.alert("Éxito", "Perfil actualizado correctamente.");
+//     } else {
+//       Alert.alert("Error", result.message || "No se pudo actualizar el perfil.");
+//     }
+//   } catch (error) {
+//     Alert.alert("Error", "Error al actualizar el perfil.");
+//   }
+// };
+
+
+    const handleEditar = (user) => {
+    navigation.navigate("EditarPerfil", { user: user });
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Perfil de Usuario</Text>
@@ -61,16 +88,41 @@ export default function Perfil() {
             style={styles.avatar}
           />
         </View>
+{/* <Text style={styles.label}>👤 Nombre:</Text>
+<TextInput
+  style={styles.input}
+  placeholder="Nombre"
+  value={usuario.user.name}
+  onChangeText={(text) =>
+    setUsuario((prev) => ({
+      ...prev,
+      user: { ...prev.user, name: text },
+    }))
+  }
+/> */}
 
         <Text style={styles.profileText}>
-          <Text style={styles.label}>👤 Nombre:</Text> {usuario.user.name || "No disponible"}
+          <Text style={styles.input}>👤 Nombre:</Text> {usuario.user.name || "No disponible"}
         </Text>
         <Text style={styles.profileText}>
           <Text style={styles.label}>📧 Email:</Text> {usuario.user.email || "No disponible"}
         </Text>
 
         <View style={styles.buttons}>
-          <BottonComponent title="Editar Perfil" onPress={() => {}} style={styles.editBtn} />
+
+          {/* <BottonComponent
+  title="Editar nombre"
+  onPress={() => handleEdit(usuario.user)} // ✅ así pasas los datos
+  style={styles.editBtn}
+/> */}
+
+           <BottonComponent
+  title="Editar Perfil"
+  onPress={() => handleEditar(usuario.user)} // ✅ así pasas los datos
+  style={styles.editBtn}
+/>
+
+
           <BottonComponent
             title="Cerrar Sesión"
             onPress={async () => {

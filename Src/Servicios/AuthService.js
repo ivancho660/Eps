@@ -67,4 +67,19 @@ export const registerUser = async (name, email, rol, password) => {
                 : "Error al conectar",
         };
     }
-}
+};
+
+    export const editar = async (id, data) => {
+        try {
+            const response = await api.put(`/usuarios/${id}`, data);
+            return { success: true, data: response.data };
+        } catch (error) {
+            console.error(
+                "Error al editar usuario:", error.response ? error.response.data : error.message
+            );
+            return {
+                success: false,
+                message: error.response ? error.response.data.message : "Error de conexión",
+            };
+        }
+};

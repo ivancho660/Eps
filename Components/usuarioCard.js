@@ -1,35 +1,21 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function MedicosCard({ medico, onEdit, onDelete }) {
-  // if (!medico) {
-  //   return (
-  //     <View style={styles.card}>
-  //       <Text style={styles.detalle}>❌ Información del médico no disponible</Text>
-  //     </View>
-  //   );
-  // }
-
+export default function UserCard({ user, onEdit  }) {
   return (
     <View style={styles.card}>
       <View style={styles.info}>
-        <Text style={styles.detalle}>
-          <Text style={styles.label}>👨‍⚕️ Médico:</Text> {medico?.nombre || 'Sin nombre'}
+        <Text style={styles.nombre}>
+          <Text style={styles.label}>🧍 Nombre: </Text>{user?.name}
         </Text>
         <Text style={styles.detalle}>
-          <Text style={styles.label}>🪪 Documento:</Text> {medico?.documento || 'Sin documento'}
-        </Text>
-        <Text style={styles.detalle}>
-          <Text style={styles.label}>🩺 Especialidad:</Text> {medico?.especialidad?.nombre || 'Sin especialidad'}
+          <Text style={styles.label}>🪪 email: </Text>{user?.email}
         </Text>
       </View>
 
       <View style={styles.actions}>
         <TouchableOpacity onPress={onEdit} style={[styles.iconBtn, styles.editBtn]}>
-          <Ionicons name="create-outline" size={20} color="#fff" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={onDelete} style={[styles.iconBtn, styles.deleteBtn]}>
-          <Ionicons name="trash-outline" size={20} color="#fff" />
+             <Text style={styles.label}>🪪 email: </Text>{user?.email}
         </TouchableOpacity>
       </View>
     </View>
@@ -55,6 +41,12 @@ const styles = StyleSheet.create({
   info: {
     flex: 1,
   },
+  nombre: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    marginBottom: 6,
+    color: '#0D47A1',
+  },
   detalle: {
     fontSize: 15,
     color: '#444',
@@ -67,7 +59,7 @@ const styles = StyleSheet.create({
   actions: {
     flexDirection: 'column',
     alignItems: 'center',
-    gap: 10, // Si tu versión no lo soporta, reemplázalo con marginVertical
+    gap: 10, // si usas RN >0.71
   },
   iconBtn: {
     width: 40,
@@ -75,7 +67,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: 4,
+    marginVertical: 5,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,

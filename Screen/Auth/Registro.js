@@ -12,19 +12,19 @@ export default function RegistroScreen({ navigation }) {
   const [password, setPassword] = useState("");
   const [confirmarPassword, setConfirmarPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  
-// Función para manejar el registro del usuario
+
+  // Función para manejar el registro del usuario
   const handleRegister = async () => {
     if (!name || !email || !rol || !password || !confirmarPassword) {
       Alert.alert("Campos requeridos", "Todos los campos son obligatorios.");
       return;
     }
-// Validación de formato de correo electrónico
+    // Validación de formato de correo electrónico
     if (password !== confirmarPassword) {
       Alert.alert("Contraseña", "Las contraseñas no coinciden.");
       return;
     }
-// Validación de contraseña
+    // Validación de contraseña
     setLoading(true);
     try {
       const result = await registerUser(name, email, rol, password, confirmarPassword);
@@ -62,12 +62,12 @@ export default function RegistroScreen({ navigation }) {
         onChangeText={setEmail}
       />
       <Picker
-  selectedValue={rol}
-  onValueChange={(itemValue) => setRol(itemValue)}
->
-  <Picker.Item label="Administrador" value="admin" />
-  <Picker.Item label="Usuario" value="user" />
-</Picker>
+        selectedValue={rol}
+        onValueChange={(itemValue) => setRol(itemValue)}
+      >
+        <Picker.Item label="Administrador" value="admin" />
+        <Picker.Item label="Usuario" value="user" />
+      </Picker>
 
       <TextInput
         style={styles.input}

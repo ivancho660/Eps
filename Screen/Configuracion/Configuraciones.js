@@ -69,7 +69,7 @@ export default function Configuracion() {
         <TouchableOpacity style={styles.option}>
           <MaterialIcons name="notifications-none" size={22} color="#1976D2" />
           <Text style={styles.optionText}>
-            Notificaciones: {permisoNotificaciones ? 'Activadas' : 'Desactivadas'}</Text>
+            Notificaciones: {permisoNotificaciones ? 'Activadas' : 'Desactivadas'}</Text>{/* se evalua si la variable esta activada o desactivada */}
           <Switch 
           value={permisoNotificaciones}
           onValueChange={toogleSwitch}
